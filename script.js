@@ -1,6 +1,5 @@
 const fire = document.querySelector('#fire');
-let canvas = document.querySelector('canvas').getContext('2d');
-    projectile = {
+let projectile = {
       model: document.querySelector('#projectile'),
       radius: 0.5,
     };
@@ -10,9 +9,21 @@ let canvas = document.querySelector('canvas').getContext('2d');
       left: 0,
       top: 0,
     };
+    fontSize = 0;
+    canvasElement = document.querySelector('canvas');
+    canvas = canvasElement.getContext('2d');
 
-canvas.lineWidth = 4;
-canvas.strokeStyle = hsl(225, 50%, 85%);
+window.addEventListener('load', normalize);
+window.addEventListener('resize', normalize);
+
+function normalize() {
+  console.log('normalize');
+  fontSize = parseInt(getComputedStyle(document.documentElement).fontSize.match(/\d/g).join(''));
+  canvasElement.width = 140 * fontSize;
+  canvasElement.height = 80 * fontSize;
+  canvas.lineWidth = 4;
+  canvas.strokeStyle = 'hsl(225, 50%, 85%)';
+};
 
 fire.addEventListener('click', startFlight);
 
@@ -69,7 +80,8 @@ function startFlight() {
   console.log(phiz.fullT);
   console.log(phiz.fullS);
 
-  canvas.moveTo(0, 80 - phiz.H);
+  canvas.beginPath();
+  canvas.moveTo(0, (80 - phiz.H) * fontSize);
   positionCalculator();
   iteration = setInterval(positionCalculator, 100);
 };
@@ -97,7 +109,7 @@ function positionCalculator() {
 function positionPlacement() {
   projectile.model.style.top = 80 - phiz.currentH + 'rem';
   projectile.model.style.left = phiz.currentS + 'rem';
-  canvas.lineTo(phiz.currentS, 80 - currentH);
+  canvas.lineTo(phiz.currentS * fontSize, (80 - phiz.currentH) * fontSize);
   canvas.stroke();
 };
 
@@ -122,14 +134,14 @@ function end() {
 function checkCollision() {
   distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
   console.log(distance);
-  if ( (-3.5 <= ufo.top - phiz.currentH <= 3.5) && (-4.5 <= ufo.top - phiz.currentS <= 4.5) ) {
+  if ( (ufo.top - phiz.currentH >= -3.5 && ufo.top - phiz.currentH <= 3.5) && (ufo.left - phiz.currentS >= -4.5 && ufo.left - phiz.currentS <= 4.5) ) {
     console.log('collision');
     stop();
   };
-  if (distance <= 4) {
-    console.log('collision');
-    stop();
-  };
+  //if (distance <= 4) {
+  //  console.log('collision');
+  //  stop();
+  //};
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();

@@ -93,7 +93,6 @@ main {
   background-size: cover;
   background-position: center 70%;
   //background-color: var(--shadow);
-  filter: invert();
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }

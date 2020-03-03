@@ -1,5 +1,6 @@
 const fire = document.querySelector('#fire');
-let projectile = {
+let canvas = document.querySelector('canvas').getContext('2d');
+    projectile = {
       model: document.querySelector('#projectile'),
       radius: 0.5,
     };
@@ -9,6 +10,9 @@ let projectile = {
       left: 0,
       top: 0,
     };
+
+canvas.lineWidth = 4;
+canvas.strokeStyle = hsl(225, 50%, 85%);
 
 fire.addEventListener('click', startFlight);
 
@@ -65,6 +69,7 @@ function startFlight() {
   console.log(phiz.fullT);
   console.log(phiz.fullS);
 
+  canvas.moveTo(0, 80 - phiz.H);
   positionCalculator();
   iteration = setInterval(positionCalculator, 100);
 };
@@ -92,6 +97,8 @@ function positionCalculator() {
 function positionPlacement() {
   projectile.model.style.top = 80 - phiz.currentH + 'rem';
   projectile.model.style.left = phiz.currentS + 'rem';
+  canvas.lineTo(phiz.currentS, 80 - currentH);
+  canvas.stroke();
 };
 
 function stop() {

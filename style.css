@@ -1,0 +1,99 @@
+:root {
+  --dark-bg: hsl(225, var(--s), var(--l) );
+  --light-bg: hsl(225, var(--s), var(--ll) );
+  --green: hsl(120, 45%, 40%);
+  --dark-green: hsl(120, 45%, 30%);
+  --shadow: hsla(225, 35%, var(--l3), var(--a) );
+}
+:root {
+  --s: 50%;
+  --l: 90%;
+  --ll: 95%;
+  --l3: 60%;
+  --a: 0.3;
+  --color: black;
+  --forest: hsl(120, 100%, 97%);
+}
+html[data-theme="dark"] {
+  --s: 25%;
+  --l: 10%;
+  --ll: 15%;
+  --l3: 35%;
+  --a: 0.5;
+  --color: white;
+  --forest: hsl(120, 6%, 90%);
+}
+html[data-theme="dark"] .icon {
+  filter: invert();
+}
+html {
+  overflow: hidden auto;
+  background-color: var(--dark-bg);
+}
+@media screen and (orientation: landscape) and (min-width: 990px) and (max-width: 1129px) {
+  html {font-size: 7px;}
+}
+@media screen and (orientation: landscape) and (min-width: 1130px) and (max-width: 1269px) {
+  html {font-size: 8px;}
+}
+@media screen and (orientation: landscape) and (min-width: 1270px) and (max-width: 1409px) {
+  html {font-size: 9px;}
+}
+@media screen and (orientation: landscape) and (min-width: 1410px) {
+  html {font-size: 10px;}
+}
+body {
+  max-width: 100vw; min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body, button, a {
+  color: var(--color);
+  font-family: 'Montserrat', sans-serif;
+}
+body, h1, h2, h3, h4, h5, button, p, ul, li, a {margin: 0;}
+
+h1 {
+  font-size: 4.5em;
+  font-weight: 800;
+  margin-bottom: 10rem;
+}
+h3 {
+  font-size: 2.5em;
+  font-weight: 700;
+}
+p {
+  font-size: 1.4em;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+main {
+  width: 140rem; height: 80rem;
+  background-color: var(--light-bg);
+  border: 0.5rem solid var(--shadow);
+}
+#projectile {
+  width: 1rem; height: 1rem;
+  top: 80rem; left: 0rem;
+  position: relative;
+  z-index: 10;
+  background-color: var(--color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: top 100ms linear, left 100ms linear;
+  will-change: top, left;
+}
+#ufo {
+  width: 9rem; height: 7rem;
+  position: relative;
+  z-index: 9;
+  background-image: url(ufo.png);
+  background-size: cover;
+  background-position: center 70%;
+  //background-color: var(--shadow);
+  filter: invert();
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}

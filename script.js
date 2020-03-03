@@ -115,7 +115,7 @@ function end() {
 function checkCollision() {
   distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
   console.log(distance);
-  if (distance <= 4) {
+  if ( (-3.5 <= ufo.top - phiz.currentH <= 3.5) && (-4.5 <= ufo.top - phiz.currentS <= 4.5) ) {
     console.log('collision');
     stop();
   };

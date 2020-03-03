@@ -119,6 +119,10 @@ function checkCollision() {
     console.log('collision');
     stop();
   };
+  if (distance <= 4) {
+    console.log('collision');
+    stop();
+  };
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();

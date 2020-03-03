@@ -96,3 +96,16 @@ main {
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
+
+#fire {
+  cursor: pointer;
+  padding: 0.7rem 1.8rem;
+  margin: 1.5rem;
+  border-radius: 5rem;
+  background-color: var(--light-bg);
+  border: 0.4rem solid var(--shadow);
+  transition: 0.3s;
+}
+#fire:hover, #fire:focus {
+  background-color: var(--shadow);
+}

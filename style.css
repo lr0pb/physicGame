@@ -68,6 +68,10 @@ p {
   font-weight: 600;
   line-height: 1.7;
 }
+button {
+  font-size: 1.7em;
+  font-weight: 700;
+}
 
 main {
   width: 140rem; height: 80rem;

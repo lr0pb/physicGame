@@ -10,19 +10,11 @@ let projectile = {
       top: 0,
     };
 
-function setUfo() {
-  ufo.left = 80 + Math.round(Math.random() * 45);
-  ufo.top = 30 + Math.round(Math.random() * 35);
-
-  ufo.model.style.left = ufo.left + 'rem';
-  ufo.model.style.top = 80 - ufo.top + 'rem';
-};
-
-setUfo();
-
 fire.addEventListener('click', startFlight);
 
 let phiz = {
+  EField: true,
+  MField: false,
   m: 1e-2,
   q: 1e-6,
   E: 2e5,
@@ -41,6 +33,21 @@ let phiz = {
 let iteration;
     distance = 100;
     i = 1;
+
+function setUfo() {
+  if (phiz.EField && !phiz.MField) {
+    ufo.left = 80 + Math.round(Math.random() * 45);
+    ufo.top = 30 + Math.round(Math.random() * 35);
+  }
+  ufoPlacement();
+};
+
+function ufoPlacement() {
+  ufo.model.style.left = ufo.left + 'rem';
+  ufo.model.style.top = 80 - ufo.top + 'rem';
+}
+
+setUfo();
 
 projectile.model.style.top = 80 - phiz.H + 'rem';
 
@@ -73,11 +80,11 @@ function positionCalculator() {
     i = 0;
     end();
   };
-  if (phiz.currentT > phiz.fullT * 0.6) {
+  if (phiz.currentS > phiz.fullS * 0.45) {
     checkCollision();
   };
-  console.log(i + ' : ' + phiz.currentS);
-  //console.log(i + ' : ' + phiz.currentH);
+  //console.log(i + ' : ' + phiz.currentS);
+  console.log(i + ' : ' + phiz.currentH);
 
   i++;
 };
@@ -110,6 +117,14 @@ function checkCollision() {
   console.log(distance);
   if (distance <= 4) {
     console.log('collision');
+    stop();
+  };
+  if (phiz.currentS >= 140) {
+    console.log('right border');
+    stop();
+  };
+  if (phiz.currentH < 0) {
+    console.log('bottom border');
     stop();
   };
 };

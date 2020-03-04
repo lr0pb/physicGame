@@ -21,7 +21,8 @@ function normalize() {
   fontSize = parseInt(getComputedStyle(document.documentElement).fontSize.match(/\d/g).join(''));
   canvasElement.width = 140 * fontSize;
   canvasElement.height = 80 * fontSize;
-  canvas.lineWidth = 4;
+  canvas.lineWidth = 0.4 * fontSize;
+  canvas.lineCap = 'square';
   canvas.strokeStyle = 'hsl(225, 50%, 85%)';
 };
 
@@ -38,10 +39,12 @@ let phiz = {
   Vy: 0,
   alpha: 45,
   a: 0,
-  currentS: 0,
-  fullS: 0,
   H: 15,
+  fullS: 0,
+  currentS: 0,
+  previousS: 0,
   currentH: 0,
+  previousH: 0,
   currentT: 100, //ms
   fullT: 0, //ms
 };
@@ -82,11 +85,14 @@ function startFlight() {
 
   canvas.beginPath();
   canvas.moveTo(0, (80 - phiz.H) * fontSize);
+  phiz.currentH = phiz.H;
   positionCalculator();
   iteration = setInterval(positionCalculator, 100);
 };
 
 function positionCalculator() {
+  phiz.previousH = phiz.currentH;
+  phiz.previousS = phiz.currentS;
   phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - (phiz.a * Math.pow(phiz.currentT / 1000, 2)) / 2);
   phiz.currentS = phiz.Vx * phiz.currentT / 1000;
 
@@ -109,7 +115,8 @@ function positionCalculator() {
 function positionPlacement() {
   projectile.model.style.top = 80 - phiz.currentH + 'rem';
   projectile.model.style.left = phiz.currentS + 'rem';
-  canvas.lineTo(phiz.currentS * fontSize, (80 - phiz.currentH) * fontSize);
+  canvas.moveTo(phiz.previousS * fontSize, (80 - phiz.previousH) * fontSize);
+  canvas.lineTo(phiz.previousS * fontSize, (80 - phiz.previousH) * fontSize);
   canvas.stroke();
 };
 

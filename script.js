@@ -1,11 +1,9 @@
 const fire = document.querySelector('#fire');
 let projectile = {
       model: document.querySelector('#projectile'),
-      radius: 0.5,
     };
     ufo = {
       model: document.querySelector('#ufo'),
-      radius: 4.5,
       left: 0,
       top: 0,
     };
@@ -132,7 +130,7 @@ function positionCalculator() {
     i = 0;
     end();
   };
-  if (phiz.currentS > phiz.fullS * 0.45) {
+  if (phiz.currentS > phiz.fullS * 0.35) {
     checkCollision();
   };
   //console.log(i + ' : ' + phiz.currentS);
@@ -170,14 +168,10 @@ function end() {
 function checkCollision() {
   distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
   console.log(distance);
-  if ( (ufo.top - phiz.currentH >= -3.5 && ufo.top - phiz.currentH <= 3.5) && (ufo.left - phiz.currentS >= -4.5 && ufo.left - phiz.currentS <= 4.5) ) {
+  if (distance <= 5) {
     console.log('collision');
     stop();
   };
-  //if (distance <= 4) {
-  //  console.log('collision');
-  //  stop();
-  //};
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();

@@ -1,8 +1,7 @@
 :root {
   --dark-bg: hsl(225, var(--s), var(--l) );
   --light-bg: hsl(225, var(--s), var(--ll) );
-  --green: hsl(120, 45%, 40%);
-  --dark-green: hsl(120, 45%, 30%);
+  --red: hsl(0, 50%, 50%);
   --shadow: hsla(225, 35%, var(--l3), var(--a) );
 }
 :root {
@@ -12,7 +11,6 @@
   --l3: 60%;
   --a: 0.3;
   --color: black;
-  --forest: hsl(120, 100%, 97%);
 }
 html[data-theme="dark"] {
   --s: 25%;
@@ -21,10 +19,9 @@ html[data-theme="dark"] {
   --l3: 35%;
   --a: 0.5;
   --color: white;
-  --forest: hsl(120, 6%, 90%);
 }
 html[data-theme="dark"] .icon {
-  filter: invert();
+  //filter: invert();
 }
 html {
   overflow: hidden auto;
@@ -128,14 +125,15 @@ canvas, #field {
   will-change: top, left;
 }
 #ufo {
-  width: 9rem; height: 7rem;
+  width: 9rem; height: 9rem;
   position: relative;
   z-index: 9;
-  background-image: url(ufo.png);
-  background-size: cover;
-  background-position: center 70%;
-  //background-color: var(--shadow);
+  background-image: url(ufo.svg);
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: 50%;
+  border: 0.4rem dotted var(--red);
   transform: translate(-50%, -50%);
 }
 

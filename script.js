@@ -10,6 +10,11 @@ let projectile = {
     fontSize = 0;
     canvasElement = document.querySelector('canvas');
     canvas = canvasElement.getContext('2d');
+    distance = 0;
+    dx = 0;
+    dy = 0;
+    i = 1;
+let iteration;
 
 window.addEventListener('load', normalize);
 window.addEventListener('resize', normalize);
@@ -22,6 +27,23 @@ function normalize() {
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
   canvas.strokeStyle = 'hsl(225, 50%, 85%)';
+};
+
+document.addEventListener('DOMContentLoaded', loadData);
+window.addEventListener('beforeunload', saveData);
+
+function saveData() {
+  localStorage.setItem('velocity', phiz.V0);
+  localStorage.setItem('height', phiz.H);
+  localStorage.setItem('angle', phiz.alpha);
+};
+function loadData() {
+  if (localStorage.getItem('velocity') && localStorage.getItem('height') && localStorage.getItem('angle')) {
+    phiz.V0 = +localStorage.getItem('velocity');
+    phiz.H = +localStorage.getItem('height');
+    phiz.alpha = +localStorage.getItem('angle');
+  };
+  projectile.model.style.top = 80 - phiz.H + 'rem';
 };
 
 fire.addEventListener('click', startFlight);
@@ -39,18 +61,29 @@ function change() {
   //if (this.value.length > 2) this.value.length = 2;
 };
 function blur() {
+  console.log(this.value);
   switch (this.name) {
     case 'velocity':
       if (!this.value) {this.placeholder = '55';}
-      else {phiz.V0 = +this.value;};
+      else {
+        if (this.value >= 60) this.value = 60;
+        phiz.V0 = +this.value;
+      };
       break;
     case 'height':
       if (!this.value) {this.placeholder = '15';}
-      else {phiz.H = +this.value;};
+      else {
+        if (this.value >= 20) this.value = 20;
+        phiz.H = +this.value;
+        projectile.model.style.top = 80 - phiz.H + 'rem';
+      };
       break;
     case 'angle':
       if (!this.value) {this.placeholder = '45';}
-      else {phiz.alpha = +this.value;};
+      else {
+        if (this.value >= 90) this.value = 90;
+        phiz.alpha = +this.value;
+      };
       break;
   };
 };
@@ -75,31 +108,33 @@ let phiz = {
   currentT: 100, //ms
   fullT: 0, //ms
 };
-let iteration;
-    distance = 100;
-    i = 1;
 
 function setUfo() {
   if (phiz.EField && !phiz.MField) {
     ufo.left = 80 + Math.round(Math.random() * 45);
     ufo.top = 30 + Math.round(Math.random() * 35);
-  }
+  };
   ufoPlacement();
 };
 
 function ufoPlacement() {
   ufo.model.style.left = ufo.left + 'rem';
-  ufo.model.style.top = 80 - ufo.top + 'rem';
-}
+  ufo.model.style.top = 80 - ufo.top - 1 + 'rem';
+  document.querySelector('#ufoCoordinates').textContent = 'Координаты тарелки: (' + ufo.left + ', ' + ufo.top + ')';
+};
 
 setUfo();
-
-projectile.model.style.top = 80 - phiz.H + 'rem';
 
 function startFlight() {
   projectile.model.style.top = 80 - phiz.H + 'rem';
   projectile.model.style.left = '0';
 
+  if (phiz.EField && !phiz.MField) {
+    EStart();
+  };
+};
+
+function EStart() {
   phiz.a = phiz.q * phiz.E / phiz.m;
   phiz.Vx = phiz.V0 * Math.cos(phiz.alpha * Math.PI / 180);
   phiz.Vy = phiz.V0 * Math.sin(phiz.alpha * Math.PI / 180);
@@ -113,11 +148,11 @@ function startFlight() {
   canvas.beginPath();
   canvas.moveTo(0, (80 - phiz.H) * fontSize);
   phiz.currentH = phiz.H;
-  positionCalculator();
-  iteration = setInterval(positionCalculator, 100);
+  EPositionCalculator();
+  iteration = setInterval(EPositionCalculator, 100);
 };
 
-function positionCalculator() {
+function EPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
   phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - (phiz.a * Math.pow(phiz.currentT / 1000, 2)) / 2);
@@ -130,11 +165,11 @@ function positionCalculator() {
     i = 0;
     end();
   };
-  if (phiz.currentS > phiz.fullS * 0.35) {
+  if (phiz.currentS > phiz.fullS * 0.4) {
     checkCollision();
   };
   //console.log(i + ' : ' + phiz.currentS);
-  console.log(i + ' : ' + phiz.currentH);
+  //console.log(i + ' : ' + phiz.currentH);
 
   i++;
 };
@@ -150,6 +185,7 @@ function positionPlacement() {
 function stop() {
   console.log('stop');
   clearInterval(iteration);
+  ufo.model.style.border = '0.4rem dotted var(--red)';
 };
 
 function end() {
@@ -166,9 +202,13 @@ function end() {
 };
 
 function checkCollision() {
-  distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
-  console.log(distance);
-  if (distance <= 5) {
+  //distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
+  //console.log(distance);
+  dx = ufo.left - phiz.currentS;
+  dy = ufo.top - phiz.currentH;
+  console.log(dx);
+  console.log(dy);
+  if (dx >= -4.5 && dx<= 4.5 && dy >= -3.5 && dy <= 3.5) {
     console.log('collision');
     stop();
   };

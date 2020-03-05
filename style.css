@@ -27,6 +27,12 @@ html {
   overflow: hidden auto;
   background-color: var(--dark-bg);
 }
+@media screen and (orientation: landscape) and (min-width: 700px) and (max-width: 839px) {
+  html {font-size: 5px;}
+}
+@media screen and (orientation: landscape) and (min-width: 840px) and (max-width: 989px) {
+  html {font-size: 6px;}
+}
 @media screen and (orientation: landscape) and (min-width: 990px) and (max-width: 1129px) {
   html {font-size: 7px;}
 }
@@ -125,19 +131,20 @@ canvas, #field {
   will-change: top, left;
 }
 #ufo {
-  width: 9rem; height: 9rem;
+  width: 9rem; height: 7rem;
   position: relative;
   z-index: 9;
   background-image: url(ufo.svg);
   background-size: 90%;
-  background-position: center;
+  background-position: center 60%;
   background-repeat: no-repeat;
   border-radius: 50%;
-  border: 0.4rem dotted var(--red);
   transform: translate(-50%, -50%);
+  transition: border 0.4s 0.1s;
 }
 
 #controls {
   width: 140rem; height: auto;
   display: flex;
+  flex-wrap: wrap;
 }

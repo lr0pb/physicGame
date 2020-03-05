@@ -48,11 +48,11 @@ body {
   flex-direction: column;
   align-items: center;
 }
-body, button, a {
+body, button, input, a {
   color: var(--color);
   font-family: 'Montserrat', sans-serif;
 }
-body, h1, h2, h3, h4, h5, button, p, ul, li, a {margin: 0;}
+body, h1, h2, h3, h4, h5, button, label, input, p, ul, li, a {margin: 0;}
 
 h1 {
   font-size: 4.5em;
@@ -68,9 +68,38 @@ p {
   font-weight: 600;
   line-height: 1.7;
 }
-button {
+button, label, input {
   font-size: 1.7em;
+  outline: none;
+  padding: 0.9rem 2rem;
+  margin: 1.7rem 1.2rem;
+  background-color: var(--light-bg);
+  border: 0.4rem solid var(--light-bg);
+  transition: 0.3s;
+}
+button {
   font-weight: 700;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+label {
+  background-color: transparent;
+  border: 0.4rem solid transparent;
+  margin: 1.7rem 0;
+  cursor: text;
+}
+input {
+  font-weight: 600;
+  width: 2.2rem;
+  border-radius: 1rem;
+  border: 0.4rem solid var(--shadow);
+  margin: 1.7rem 1.2rem 1.7rem 0;
+}
+button:hover, button:focus, input:hover, input:focus {
+  border: 0.4rem solid var(--shadow);
+}
+button:focus, input:focus {
+  background-color: var(--shadow);
 }
 
 main {
@@ -110,15 +139,7 @@ canvas, #field {
   transform: translate(-50%, -50%);
 }
 
-#fire {
-  cursor: pointer;
-  padding: 0.7rem 1.8rem;
-  margin: 1.5rem;
-  border-radius: 5rem;
-  background-color: var(--light-bg);
-  border: 0.4rem solid var(--shadow);
-  transition: 0.3s;
-}
-#fire:hover, #fire:focus {
-  background-color: var(--shadow);
+#controls {
+  width: 140rem; height: auto;
+  display: flex;
 }

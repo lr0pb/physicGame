@@ -27,6 +27,35 @@ function normalize() {
 };
 
 fire.addEventListener('click', startFlight);
+for (var input of document.querySelectorAll('input')) {
+  input.addEventListener('focus', focus);
+  input.addEventListener('input', change);
+  input.addEventListener('blur', blur);
+};
+
+function focus() {
+  this.placeholder = '';
+};
+function change() {
+  this.value = this.value.replace(this.value.match(/[\D]/g), '');
+  //if (this.value.length > 2) this.value.length = 2;
+};
+function blur() {
+  switch (this.name) {
+    case 'velocity':
+      if (!this.value) {this.placeholder = '55';}
+      else {phiz.V0 = +this.value;};
+      break;
+    case 'height':
+      if (!this.value) {this.placeholder = '15';}
+      else {phiz.H = +this.value;};
+      break;
+    case 'angle':
+      if (!this.value) {this.placeholder = '45';}
+      else {phiz.alpha = +this.value;};
+      break;
+  };
+};
 
 let phiz = {
   EField: true,

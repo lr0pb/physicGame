@@ -208,8 +208,8 @@ function MPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
   //console.log(phiz.omega * (phiz.currentT / 25) - phiz.alpha);
-  phiz.currentH = phiz.H + ( phiz.R * Math.cos( (phiz.omega * (phiz.currentT / 25) - phiz.alpha) * Math.PI / 180 ) ) - ( phiz.R * Math.cos(phiz.alpha * Math.PI / 180) );
-  phiz.currentS = ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( (phiz.omega * (phiz.currentT / 25) - phiz.alpha) * Math.PI / 180 );
+  phiz.currentH = phiz.H + ( phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) ) - ( phiz.R * Math.cos(phiz.alpha * Math.PI / 180) );
+  phiz.currentS = ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( (phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) );
 
   if (phiz.currentT < phiz.fullT) {
     positionPlacement();
@@ -219,8 +219,8 @@ function MPositionCalculator() {
     end();
   };
   checkCollision();
-  console.log(i + ' : ' + phiz.currentS);
-  //console.log(i + ' : ' + phiz.currentH);
+  //console.log(i + ' : ' + phiz.currentS);
+  console.log(i + ' : ' + phiz.currentH);
   i++;
 };
 
@@ -247,7 +247,6 @@ function end() {
   phiz.currentT = 100;
   phiz.currentS = 0;
   phiz.currentH = 0;
-  projectile.model.style.top = '80rem';
 };
 
 function checkCollision() {

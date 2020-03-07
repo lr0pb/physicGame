@@ -2,7 +2,7 @@
 <html lang="ru" dir="ltr" data-theme="dark">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>physicGame</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
@@ -12,19 +12,22 @@
       <canvas></canvas>
       <div id="field">
         <div id="projectile"></div>
+        <div id="launcher" class="icon" style="opacity: 0;"></div>
         <div id="ufo" class="icon"></div>
       </div>
     </main>
-    <div id="controls">
-      <button id="fire">Запустить заряд</button>
-      <label for="velocity">Начальная скорость:</label>
-      <input type="text" name="velocity" placeholder="55" pattern="\d*">
-      <label for="height">Высота пушки:</label>
-      <input type="text" name="height" placeholder="15" pattern="\d*">
-      <label for="angle">Угол наклона:</label>
-      <input type="text" name="angle" placeholder="45" pattern="\d*">
-      <label id="ufoCoordinates"></label>
+    <div id="controlsBlock">
+      <div class="controls">
+        <label for="velocity">Начальная скорость:</label>
+        <input type="text" name="velocity" placeholder="55" pattern="\d*">
+        <label for="height">Высота пушки:</label>
+        <input type="text" name="height" placeholder="15" pattern="\d*">
+        <label for="angle">Угол наклона:</label>
+        <input type="text" name="angle" placeholder="45" pattern="\d*">
+      </div>
+      <button id="fire" data-c="true">Запустить заряд</button>
     </div>
+    <label id="ufoCoordinates"></label>
     <div>
       Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
     </div>

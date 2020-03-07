@@ -42,6 +42,10 @@ function loadData() {
     phiz.V0 = +localStorage.getItem('velocity');
     phiz.H = +localStorage.getItem('height');
     phiz.alpha = +localStorage.getItem('angle');
+
+    document.querySelector('[name="velocity"]').value = phiz.V0;
+    document.querySelector('[name="height"]').value = phiz.H;
+    document.querySelector('[name="angle"]').value = phiz.alpha;
   };
   projectile.model.style.top = 80 - phiz.H + 'rem';
 };
@@ -89,17 +93,20 @@ function blur() {
 };
 
 let phiz = {
-  EField: true,
-  MField: false,
+  EField: false,
+  MField: true,
   m: 1e-2,
   q: 1e-6,
   E: 2e5,
+  B: 69e2,
   V0: 55,
   Vx: 0,
   Vy: 0,
   alpha: 45,
-  a: 0,
   H: 15,
+  a: 0,
+  omega: 0,
+  R: 0,
   fullS: 0,
   currentS: 0,
   previousS: 0,
@@ -114,12 +121,16 @@ function setUfo() {
     ufo.left = 80 + Math.round(Math.random() * 45);
     ufo.top = 30 + Math.round(Math.random() * 35);
   };
+  if (!phiz.EField && phiz.MField) {
+    ufo.left = 40 + Math.round(Math.random() * 60);
+    ufo.top = 10 + Math.round(Math.random() * 40);
+  };
   ufoPlacement();
 };
 
 function ufoPlacement() {
   ufo.model.style.left = ufo.left + 'rem';
-  ufo.model.style.top = 80 - ufo.top - 1 + 'rem';
+  ufo.model.style.top = 80 - ufo.top - 7 + 'rem';
   document.querySelector('#ufoCoordinates').textContent = 'Координаты тарелки: (' + ufo.left + ', ' + ufo.top + ')';
 };
 
@@ -129,8 +140,13 @@ function startFlight() {
   projectile.model.style.top = 80 - phiz.H + 'rem';
   projectile.model.style.left = '0';
 
+  fire.dataset.c;
+
   if (phiz.EField && !phiz.MField) {
     EStart();
+  };
+  if (!phiz.EField && phiz.MField) {
+    MStart();
   };
 };
 
@@ -161,7 +177,7 @@ function EPositionCalculator() {
   if (phiz.currentT < phiz.fullT) {
     positionPlacement();
     phiz.currentT += 100;
-  } else if (phiz.currentT > phiz.fullT) {
+  } else {
     i = 0;
     end();
   };
@@ -170,7 +186,41 @@ function EPositionCalculator() {
   };
   //console.log(i + ' : ' + phiz.currentS);
   //console.log(i + ' : ' + phiz.currentH);
+  i++;
+};
 
+function MStart() {
+  phiz.omega = phiz.q * phiz.B / phiz.m;
+  phiz.R = phiz.V0 / phiz.omega;
+
+  phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
+
+  console.log(phiz.fullT);
+
+  canvas.beginPath();
+  canvas.moveTo(0, (80 - phiz.H) * fontSize);
+  phiz.currentH = phiz.H;
+  MPositionCalculator();
+  iteration = setInterval(MPositionCalculator, 100);
+};
+
+function MPositionCalculator() {
+  phiz.previousH = phiz.currentH;
+  phiz.previousS = phiz.currentS;
+  //console.log(phiz.omega * (phiz.currentT / 25) - phiz.alpha);
+  phiz.currentH = phiz.H + ( phiz.R * Math.cos( (phiz.omega * (phiz.currentT / 25) - phiz.alpha) * Math.PI / 180 ) ) - ( phiz.R * Math.cos(phiz.alpha * Math.PI / 180) );
+  phiz.currentS = ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( (phiz.omega * (phiz.currentT / 25) - phiz.alpha) * Math.PI / 180 );
+
+  if (phiz.currentT < phiz.fullT) {
+    positionPlacement();
+    phiz.currentT += 100;
+  } else {
+    i = 0;
+    end();
+  };
+  checkCollision();
+  console.log(i + ' : ' + phiz.currentS);
+  //console.log(i + ' : ' + phiz.currentH);
   i++;
 };
 
@@ -185,7 +235,6 @@ function positionPlacement() {
 function stop() {
   console.log('stop');
   clearInterval(iteration);
-  ufo.model.style.border = '0.4rem dotted var(--red)';
 };
 
 function end() {
@@ -202,22 +251,25 @@ function end() {
 };
 
 function checkCollision() {
-  //distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
-  //console.log(distance);
+  distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
+  //console.log('d : ' + distance);
   dx = ufo.left - phiz.currentS;
   dy = ufo.top - phiz.currentH;
-  console.log(dx);
-  console.log(dy);
-  if (dx >= -4.5 && dx<= 4.5 && dy >= -3.5 && dy <= 3.5) {
+  //console.log(dx);
+  //console.log(dy);
+  if (dx >= -4.5 && dx<= 4.5 && dy >= -3.5 && dy <= 3.5 && distance <= 4.5) {
     console.log('collision');
     stop();
+    ufo.model.style.border = '0.4rem dotted var(--red)';
   };
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();
+    projectile.model.style.left = '140rem';
   };
   if (phiz.currentH < 0) {
     console.log('bottom border');
     stop();
+    projectile.model.style.top = '80rem';
   };
 };

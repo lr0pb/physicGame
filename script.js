@@ -72,7 +72,7 @@ function change() {
       if (this.value >= 60) this.value = 60;
       break;
     case 'height':
-      if (this.value >= 20) this.value = 20;
+      if (this.value >= 60) this.value = 60;
       break;
     case 'angle':
       if (this.value >= 90) this.value = 90;
@@ -325,6 +325,10 @@ function positionPlacement() {
 function stop() {
   console.log('stop');
   clearInterval(iteration);
+  document.querySelector('#reload').style.display = 'block';
+  document.querySelector('#reload').addEventListener('click', () => {
+    document.location.reload();
+  });
 };
 
 function end() {

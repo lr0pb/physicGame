@@ -180,3 +180,8 @@ canvas, #field {
   font-size: 120%;
   font-weight: 800;
 }
+
+#reload {
+  display: none;
+  margin: 2rem 1.2rem;
+}

@@ -7,7 +7,8 @@ let projectile = {
       left: 0,
       top: 0,
     };
-    fontSize = 0;
+    previousFontSize = 0;
+    fontSize = 1;
     canvasElement = document.querySelector('canvas');
     canvas = canvasElement.getContext('2d');
     distance = 0;
@@ -21,9 +22,13 @@ window.addEventListener('resize', normalize);
 
 function normalize() {
   console.log('normalize');
+  previousFontSize = fontSize;
   fontSize = parseInt(getComputedStyle(document.documentElement).fontSize.match(/\d/g).join(''));
-  canvasElement.width = 140 * fontSize;
-  canvasElement.height = 80 * fontSize;
+  if (previousFontSize != fontSize) {
+    console.log('new canvas size');
+    canvasElement.width = 140 * fontSize;
+    canvasElement.height = 80 * fontSize;
+  };
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
   canvas.strokeStyle = 'hsl(225, 50%, 85%)';
@@ -62,7 +67,17 @@ function focus() {
 };
 function change() {
   this.value = this.value.replace(this.value.match(/[\D]/g), '');
-  //if (this.value.length > 2) this.value.length = 2;
+  switch (this.name) {
+    case 'velocity':
+      if (this.value >= 60) this.value = 60;
+      break;
+    case 'height':
+      if (this.value >= 20) this.value = 20;
+      break;
+    case 'angle':
+      if (this.value >= 90) this.value = 90;
+      break;
+  };
 };
 function blur() {
   console.log(this.value);
@@ -77,7 +92,7 @@ function blur() {
     case 'height':
       if (!this.value) {this.placeholder = '15';}
       else {
-        if (this.value >= 20) this.value = 20;
+        if (this.value >= 60) this.value = 60;
         phiz.H = +this.value;
         projectile.model.style.top = 80 - phiz.H + 'rem';
       };
@@ -93,12 +108,12 @@ function blur() {
 };
 
 let phiz = {
-  EField: false,
+  EField: true,
   MField: true,
-  m: 1e-2,
-  q: 1e-6,
-  E: 2e5,
-  B: 69e2,
+  m: 1e-8,
+  q: 1e-7,
+  E: 2,
+  B: 0.1,
   V0: 55,
   Vx: 0,
   Vy: 0,
@@ -116,13 +131,22 @@ let phiz = {
   fullT: 0, //ms
 };
 
+document.querySelector('#q').textContent = phiz.q;
+document.querySelector('#m').textContent = phiz.m;
+document.querySelector('#E').textContent = phiz.E;
+document.querySelector('#B').textContent = phiz.B;
+
 function setUfo() {
-  if (phiz.EField && !phiz.MField) {
+  if (!phiz.MField) {
     ufo.left = 80 + Math.round(Math.random() * 45);
     ufo.top = 30 + Math.round(Math.random() * 35);
   };
   if (!phiz.EField && phiz.MField) {
     ufo.left = 40 + Math.round(Math.random() * 60);
+    ufo.top = 10 + Math.round(Math.random() * 40);
+  };
+  if (phiz.EField && phiz.MField) {
+    ufo.left = 80 + Math.round(Math.random() * 45);
     ufo.top = 10 + Math.round(Math.random() * 40);
   };
   ufoPlacement();
@@ -131,7 +155,8 @@ function setUfo() {
 function ufoPlacement() {
   ufo.model.style.left = ufo.left + 'rem';
   ufo.model.style.top = 80 - ufo.top - 7 + 'rem';
-  document.querySelector('#ufoCoordinates').textContent = 'Координаты тарелки: (' + ufo.left + ', ' + ufo.top + ')';
+  document.querySelector('#ufoX').textContent = ufo.left;
+  document.querySelector('#ufoY').textContent = ufo.top;
 };
 
 setUfo();
@@ -140,14 +165,45 @@ function startFlight() {
   projectile.model.style.top = 80 - phiz.H + 'rem';
   projectile.model.style.left = '0';
 
-  fire.dataset.c;
+  document.querySelector('#controlsBlock').style.display = 'none';
 
+  fire.dataset.ready;
+
+  if (!phiz.EField && !phiz.MField) {
+    NStart();
+  }
   if (phiz.EField && !phiz.MField) {
     EStart();
   };
   if (!phiz.EField && phiz.MField) {
     MStart();
   };
+  if (phiz.EField && phiz.MField) {
+    EMStart();
+  };
+};
+
+function NStart() {
+  canvas.beginPath();
+  canvas.moveTo(0, (80 - phiz.H) * fontSize);
+  phiz.currentH = phiz.H;
+  NPositionCalculator();
+  iteration = setInterval(NPositionCalculator, 100);
+};
+
+function NPositionCalculator() {
+  phiz.previousH = phiz.currentH;
+  phiz.previousS = phiz.currentS;
+  phiz.currentS = phiz.V0 * (phiz.currentT / 1000);
+  phiz.currentH = phiz.H + Math.tan(phiz.alpha * Math.PI / 180) * phiz.currentS;
+
+  positionPlacement();
+  phiz.currentT += 100;
+  checkCollision();
+
+  //console.log(i + ' : ' + phiz.currentS);
+  console.log(i + ' : ' + phiz.currentH);
+  i++;
 };
 
 function EStart() {
@@ -171,7 +227,7 @@ function EStart() {
 function EPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
-  phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - (phiz.a * Math.pow(phiz.currentT / 1000, 2)) / 2);
+  phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - phiz.a * Math.pow(phiz.currentT / 1000, 2) / 2);
   phiz.currentS = phiz.Vx * phiz.currentT / 1000;
 
   if (phiz.currentT < phiz.fullT) {
@@ -185,7 +241,7 @@ function EPositionCalculator() {
     checkCollision();
   };
   //console.log(i + ' : ' + phiz.currentS);
-  //console.log(i + ' : ' + phiz.currentH);
+  console.log(i + ' : ' + phiz.currentH);
   i++;
 };
 
@@ -207,9 +263,8 @@ function MStart() {
 function MPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
-  //console.log(phiz.omega * (phiz.currentT / 25) - phiz.alpha);
-  phiz.currentH = phiz.H + ( phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) ) - ( phiz.R * Math.cos(phiz.alpha * Math.PI / 180) );
-  phiz.currentS = ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( (phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) );
+  phiz.currentH = phiz.H + phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) - phiz.R * Math.cos(phiz.alpha * Math.PI / 180);
+  phiz.currentS = phiz.R * Math.sin(phiz.alpha * Math.PI / 180) + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
 
   if (phiz.currentT < phiz.fullT) {
     positionPlacement();
@@ -218,6 +273,41 @@ function MPositionCalculator() {
     i = 0;
     end();
   };
+  checkCollision();
+  //console.log(i + ' : ' + phiz.currentS);
+  console.log(i + ' : ' + phiz.currentH);
+  i++;
+};
+
+
+function EMStart() {
+  phiz.omega = phiz.q * phiz.B / phiz.m;
+  phiz.Vx = phiz.V0 * Math.cos(phiz.alpha * Math.PI / 180);
+  phiz.Vy = phiz.V0 * Math.sin(phiz.alpha * Math.PI / 180);
+  phiz.R = Math.sqrt( Math.pow(phiz.Vx - (phiz.E / phiz.B), 2) + Math.pow(phiz.Vy, 2) ) / phiz.omega;
+  console.log(phiz.R);
+  phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
+
+  console.log(phiz.fullT);
+
+  canvas.beginPath();
+  canvas.moveTo(0, (80 - phiz.H) * fontSize);
+  phiz.currentH = phiz.H;
+  EMPositionCalculator();
+  iteration = setInterval(EMPositionCalculator, 100);
+};
+
+function EMPositionCalculator() {
+  phiz.previousH = phiz.currentH;
+  phiz.previousS = phiz.currentS;
+  phiz.currentH = phiz.H + ( -1 * ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
+  phiz.currentS = phiz.R * Math.cos(phiz.alpha * Math.PI / 180) - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
+
+  if (phiz.currentH <= 0) phiz.currentH = 0;
+
+  positionPlacement();
+  phiz.currentT += 100;
+
   checkCollision();
   //console.log(i + ' : ' + phiz.currentS);
   console.log(i + ' : ' + phiz.currentH);
@@ -247,6 +337,9 @@ function end() {
   phiz.currentT = 100;
   phiz.currentS = 0;
   phiz.currentH = 0;
+  if (phiz.EField && !phiz.MField) {
+    projectile.model.style.top = '80rem';
+  };
 };
 
 function checkCollision() {
@@ -266,9 +359,14 @@ function checkCollision() {
     stop();
     projectile.model.style.left = '140rem';
   };
-  if (phiz.currentH < 0) {
+  if (!phiz.MField && phiz.currentH < 0) {
     console.log('bottom border');
     stop();
     projectile.model.style.top = '80rem';
+  };
+  if (!phiz.EField && !phiz.MField && phiz.currentH >= 80) {
+    console.log('top border');
+    stop();
+    projectile.model.style.top = '0rem';
   };
 };

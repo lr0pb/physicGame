@@ -12,22 +12,46 @@
       <canvas></canvas>
       <div id="field">
         <div id="projectile"></div>
-        <div id="launcher" class="icon" style="opacity: 0;"></div>
+        <div id="launcher" class="icon"></div>
         <div id="ufo" class="icon"></div>
       </div>
     </main>
     <div id="controlsBlock">
-      <div class="controls">
-        <label for="velocity">Начальная скорость:</label>
-        <input type="text" name="velocity" placeholder="55" pattern="\d*">
-        <label for="height">Высота пушки:</label>
-        <input type="text" name="height" placeholder="15" pattern="\d*">
-        <label for="angle">Угол наклона:</label>
-        <input type="text" name="angle" placeholder="45" pattern="\d*">
+      <div class="columnContent projectileConditions">
+        <h2>Частица:</h2>
+        <label>q = <span class="digit" id="q"></span> Кл</label>
+        <br>
+        <label>m = <span class="digit" id="m"></span> кг</label>
       </div>
-      <button id="fire" data-c="true">Запустить заряд</button>
+      <div class="columnContent fieldConditions">
+        <h2>Поле:</h2>
+        <label>E = <span class="digit" id="E"></span> В/м</label>
+        <br>
+        <label>B = <span class="digit" id="B"></span> Тесла</label>
+      </div>
+      <div class="columnContent ufoConditions">
+        <h2>Тарелка:</h2>
+        <label>x = <span class="digit" id="ufoX"></span> м</label>
+        <br>
+        <label>y = <span class="digit" id="ufoY"></span> м</label>
+        <br>
+        <label>R = <span class="digit">3.5</span> - <span class="digit">4.5</span> м</label>
+      </div>
+      <div class="columnContent controls">
+        <label for="velocity">V<sub>0</sub> = </label>
+        <input type="text" name="velocity" placeholder="55" pattern="\d*">
+        <label> м/с</label>
+        <br>
+        <label for="height">H = </label>
+        <input type="text" name="height" placeholder="15" pattern="\d*">
+        <label> м</label>
+        <br>
+        <label for="angle">α = </label>
+        <input type="text" name="angle" placeholder="45" pattern="\d*">
+        <label> °</label>
+      </div>
+      <button id="fire" data-ready="false">Запустить частицу</button>
     </div>
-    <label id="ufoCoordinates"></label>
     <div>
       Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
     </div>

@@ -60,11 +60,11 @@ body, h1, h2, h3, h4, h5, button, label, input, p, ul, li, a {margin: 0;}
 h1 {
   font-size: 4.5em;
   font-weight: 800;
-  margin-bottom: 10rem;
 }
-h3 {
+h2 {
   font-size: 2.5em;
-  font-weight: 700;
+  font-weight: 800;
+  padding: 0 2rem 1rem 1rem;
 }
 p {
   font-size: 1.4em;
@@ -75,7 +75,6 @@ button, label, input {
   font-size: 1.7em;
   outline: none;
   padding: 0.9rem 2rem;
-  margin: 1.7rem 1.2rem;
   background-color: var(--light-bg);
   border: 0.4rem solid var(--light-bg);
   transition: 0.3s;
@@ -84,11 +83,12 @@ button {
   font-weight: 700;
   border-radius: 5rem;
   cursor: pointer;
+  margin: 0 1.2rem;
 }
 label {
   background-color: transparent;
   border: 0.4rem solid transparent;
-  margin: 1.7rem 0;
+  padding: 1rem 0.5rem 1rem 1rem;
   cursor: text;
 }
 input {
@@ -96,7 +96,7 @@ input {
   width: 2.2rem;
   border-radius: 1rem;
   border: 0.4rem solid var(--shadow);
-  margin: 1.7rem 1.2rem 1.7rem 0;
+  margin: 1rem 0;
 }
 button:hover, button:focus, input:hover, input:focus {
   border: 0.4rem solid var(--shadow);
@@ -147,7 +147,7 @@ canvas, #field {
   top: 73rem; left: 0;
   position: relative;
   z-index: 8;
-  //background-image: url(launcher.svg);
+  background-image: url(launcher.svg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -155,21 +155,28 @@ canvas, #field {
 }
 
 #controlsBlock {
-  width: 90rem; height: auto;
+  width: 80rem; height: 33rem;
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translate(-50%, 0);
   z-index: 15;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  column-count: 3;
   border-radius: 1.5rem;
   background-color: var(--dark-bg);
 }
-.controls {
-  height: 9rem;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+.columnContent {
+  padding: 3rem;
 }
-#fire {
-  margin-bottom: 3rem;
+.projectileConditions {
+  height: 10.5rem;
+}
+.fieldConditions {
+  height: 10.5rem;
+}
+.ufoConditions {
+  height: 27rem;
+}
+.digit {
+  font-size: 120%;
+  font-weight: 800;
 }

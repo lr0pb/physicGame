@@ -73,6 +73,7 @@ function change() {
       break;
     case 'height':
       if (this.value >= 60) this.value = 60;
+      projectile.model.style.top = 80 - this.value + 'rem';
       break;
     case 'angle':
       if (this.value >= 90) this.value = 90;
@@ -94,7 +95,6 @@ function blur() {
       else {
         if (this.value >= 60) this.value = 60;
         phiz.H = +this.value;
-        projectile.model.style.top = 80 - phiz.H + 'rem';
       };
       break;
     case 'angle':
@@ -121,6 +121,8 @@ let phiz = {
   H: 15,
   a: 0,
   omega: 0,
+  Cx: 0,
+  Cy: 0,
   R: 0,
   fullS: 0,
   currentS: 0,
@@ -248,6 +250,8 @@ function EPositionCalculator() {
 function MStart() {
   phiz.omega = phiz.q * phiz.B / phiz.m;
   phiz.R = phiz.V0 / phiz.omega;
+  phiz.Cx = phiz.R * Math.sin(phiz.alpha * Math.PI / 180);
+  phiz.Cy = phiz.R * Math.cos(phiz.alpha * Math.PI / 180);
 
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
 
@@ -263,8 +267,8 @@ function MStart() {
 function MPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
-  phiz.currentH = phiz.H + phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) ) - phiz.R * Math.cos(phiz.alpha * Math.PI / 180);
-  phiz.currentS = phiz.R * Math.sin(phiz.alpha * Math.PI / 180) + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
+  phiz.currentH = phiz.H - phiz.Cy + phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
+  phiz.currentS = phiz.Cx + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
 
   if (phiz.currentT < phiz.fullT) {
     positionPlacement();
@@ -284,10 +288,14 @@ function EMStart() {
   phiz.omega = phiz.q * phiz.B / phiz.m;
   phiz.Vx = phiz.V0 * Math.cos(phiz.alpha * Math.PI / 180);
   phiz.Vy = phiz.V0 * Math.sin(phiz.alpha * Math.PI / 180);
+
   phiz.R = Math.sqrt( Math.pow(phiz.Vx - (phiz.E / phiz.B), 2) + Math.pow(phiz.Vy, 2) ) / phiz.omega;
-  console.log(phiz.R);
+  phiz.Cx = phiz.R * Math.cos(phiz.alpha * Math.PI / 180);
+  phiz.Cy = -1 * (phiz.R * Math.sin(phiz.alpha * Math.PI / 180));
+
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
 
+  console.log(phiz.R);
   console.log(phiz.fullT);
 
   canvas.beginPath();
@@ -300,8 +308,8 @@ function EMStart() {
 function EMPositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
-  phiz.currentH = phiz.H + ( -1 * ( phiz.R * Math.sin(phiz.alpha * Math.PI / 180) ) + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
-  phiz.currentS = phiz.R * Math.cos(phiz.alpha * Math.PI / 180) - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
+  phiz.currentH = phiz.H + ( phiz.Cy + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
+  phiz.currentS = phiz.Cx - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
 
   if (phiz.currentH <= 0) phiz.currentH = 0;
 

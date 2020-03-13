@@ -52,12 +52,11 @@ function loadData() {
     document.querySelector('[name="angle"]').value = phiz.alpha;
   };
   projectile.style.top = 80 - phiz.H + 'rem';
-  launcher.style.top = 80 - 5 - phiz.H + 'rem';
+  launcher.style.top = 80 - 4 - phiz.H + 'rem';
   launcher.style.transform = 'rotateZ(' + (90 - phiz.alpha) + 'deg)';
 };
 
-fire.addEventListener('click', startFlight);
-for (var input of document.querySelectorAll('input')) {
+for (let input of document.querySelectorAll('input')) {
   input.addEventListener('focus', focus);
   input.addEventListener('input', change);
   input.addEventListener('blur', blur);
@@ -75,7 +74,7 @@ function change() {
     case 'height':
       if (this.value >= 60) this.value = 60;
       projectile.style.top = 80 - this.value + 'rem';
-      launcher.style.top = 80 - 5 - this.value + 'rem';
+      launcher.style.top = 80 - 4 - this.value + 'rem';
       break;
     case 'angle':
       if (this.value >= 90) this.value = 90;
@@ -97,7 +96,7 @@ function blur() {
       if (!this.value) {
         this.placeholder = phiz.H;
         projectile.style.top = 80 - phiz.H + 'rem';
-        launcher.style.top = 80 - 5 - phiz.H + 'rem';
+        launcher.style.top = 80 - 4 - phiz.H + 'rem';
       }
       else {
         if (this.value >= 60) this.value = 60;
@@ -164,28 +163,6 @@ function ufoPlacement() {
   ufo.model.style.top = 80 - ufo.top - 7 + 'rem';
   document.querySelector('#ufoX').textContent = ufo.left;
   document.querySelector('#ufoY').textContent = ufo.top;
-};
-
-function startFlight() {
-  projectile.style.top = 80 - phiz.H + 'rem';
-  projectile.style.left = '0';
-
-  document.querySelector('#controlsBlock').style.display = 'none';
-
-  fire.dataset.ready;
-
-  if (!phiz.EField && !phiz.MField) {
-    NStart();
-  }
-  if (phiz.EField && !phiz.MField) {
-    EStart();
-  };
-  if (!phiz.EField && phiz.MField) {
-    MStart();
-  };
-  if (phiz.EField && phiz.MField) {
-    EMStart();
-  };
 };
 
 function NStart() {
@@ -404,10 +381,10 @@ function showBlock(block) {
   }, 40 );
 };
 function hideBlock(block) {
-  block.classList.contains('hideBlock') ? block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
+  block.classList.contains('showBlock') ? block.classList.replace('showBlock','hideBlock') : block.classList.add('hideBlock');
   block.style.display = 'block';
   setTimeout( () => {
-    block.classList.add('showBlock');
+    block.classList.add('hideBlock');
   }, 40 );
 };
 function show(block) {
@@ -431,6 +408,28 @@ document.querySelector('#start').addEventListener('click', () => {
   setUfo();
   showBlock(document.querySelector('#controlsBlock'));
 });
+
+fire.addEventListener('click', startFlight);
+
+function startFlight() {
+  projectile.style.top = 80 - phiz.H + 'rem';
+  projectile.style.left = '0';
+
+  hideBlock(document.querySelector('#controlsBlock'));
+
+  if (!phiz.EField && !phiz.MField) {
+    NStart();
+  };
+  if (phiz.EField && !phiz.MField) {
+    EStart();
+  };
+  if (!phiz.EField && phiz.MField) {
+    MStart();
+  };
+  if (phiz.EField && phiz.MField) {
+    EMStart();
+  };
+};
 
 document.querySelector('#q').textContent = phiz.q;
 document.querySelector('#m').textContent = phiz.m;

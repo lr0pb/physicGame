@@ -52,7 +52,7 @@ function loadData() {
     document.querySelector('[name="angle"]').value = phiz.alpha;
   };
   projectile.style.top = 80 - phiz.H + 'rem';
-  launcher.style.top = 80 - 6 - phiz.H + 'rem';
+  launcher.style.top = 80 - 5 - phiz.H + 'rem';
   launcher.style.transform = 'rotateZ(' + (90 - phiz.alpha) + 'deg)';
 };
 
@@ -75,7 +75,7 @@ function change() {
     case 'height':
       if (this.value >= 60) this.value = 60;
       projectile.style.top = 80 - this.value + 'rem';
-      launcher.style.top = 80 - 6 - this.value + 'rem';
+      launcher.style.top = 80 - 5 - this.value + 'rem';
       break;
     case 'angle':
       if (this.value >= 90) this.value = 90;
@@ -87,7 +87,7 @@ function blur() {
   console.log(this.value);
   switch (this.name) {
     case 'velocity':
-      if (!this.value) {this.placeholder = '55';}
+      if (!this.value) {this.placeholder = phiz.V0;}
       else {
         if (this.value >= 60) this.value = 60;
         phiz.V0 = +this.value;
@@ -95,9 +95,9 @@ function blur() {
       break;
     case 'height':
       if (!this.value) {
-        this.placeholder = '15';
+        this.placeholder = phiz.H;
         projectile.style.top = 80 - phiz.H + 'rem';
-        launcher.style.top = 80 - 6 - phiz.H + 'rem';
+        launcher.style.top = 80 - 5 - phiz.H + 'rem';
       }
       else {
         if (this.value >= 60) this.value = 60;
@@ -106,7 +106,7 @@ function blur() {
       break;
     case 'angle':
       if (!this.value) {
-        this.placeholder = '45';
+        this.placeholder = phiz.alpha;
         launcher.style.transform = 'rotateZ(' + (90 - phiz.alpha) + 'deg)';
       }
       else {
@@ -118,8 +118,8 @@ function blur() {
 };
 
 let phiz = {
-  EField: true,
-  MField: true,
+  EField: false,
+  MField: false,
   m: 1e-8,
   q: 1e-7,
   E: 2,
@@ -143,11 +143,6 @@ let phiz = {
   fullT: 0, //ms
 };
 
-document.querySelector('#q').textContent = phiz.q;
-document.querySelector('#m').textContent = phiz.m;
-document.querySelector('#E').textContent = phiz.E;
-document.querySelector('#B').textContent = phiz.B;
-
 function setUfo() {
   if (!phiz.MField) {
     ufo.left = 80 + Math.round(Math.random() * 45);
@@ -170,8 +165,6 @@ function ufoPlacement() {
   document.querySelector('#ufoX').textContent = ufo.left;
   document.querySelector('#ufoY').textContent = ufo.top;
 };
-
-setUfo();
 
 function startFlight() {
   projectile.style.top = 80 - phiz.H + 'rem';
@@ -343,10 +336,6 @@ function positionPlacement() {
 function stop() {
   console.log('stop');
   clearInterval(iteration);
-  document.querySelector('#reload').style.display = 'block';
-  document.querySelector('#reload').addEventListener('click', () => {
-    document.location.reload();
-  });
 };
 
 function end() {
@@ -362,6 +351,7 @@ function end() {
   if (phiz.EField && !phiz.MField) {
     projectile.style.top = '80rem';
   };
+  fail();
 };
 
 function checkCollision() {
@@ -375,20 +365,125 @@ function checkCollision() {
     console.log('collision');
     stop();
     ufo.model.style.border = '0.4rem dotted var(--red)';
+    win();
   };
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();
     projectile.style.left = '140rem';
+    fail();
   };
-  if (!phiz.MField && phiz.currentH < 0) {
+  if (phiz.currentH < 0) {
     console.log('bottom border');
     stop();
     projectile.style.top = '80rem';
+    fail();
   };
   if (!phiz.EField && !phiz.MField && phiz.currentH >= 80) {
     console.log('top border');
     stop();
     projectile.style.top = '0rem';
+    fail();
   };
+};
+
+function win() {
+  show(document.querySelector('#winBlock'));
+};
+function fail() {
+  show(document.querySelector('#failBlock'));
+};
+document.querySelector('#win').addEventListener('click', next);
+document.querySelector('#fail').addEventListener('click', reentry);
+
+function showBlock(block) {
+  block.classList.contains('hideBlock') ? block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
+  block.style.display = 'block';
+  setTimeout( () => {
+    block.classList.add('showBlock');
+  }, 40 );
+};
+function hideBlock(block) {
+  block.classList.contains('hideBlock') ? block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
+  block.style.display = 'block';
+  setTimeout( () => {
+    block.classList.add('showBlock');
+  }, 40 );
+};
+function show(block) {
+  block.classList.contains('hide') ? block.classList.replace('hide','show') : block.classList.add('show');
+  block.style.display = 'flex';
+  setTimeout( () => {
+    block.classList.add('show');
+  }, 40 );
+};
+function hide(block) {
+  block.classList.contains('show') ? block.classList.replace('show','hide') : block.classList.add('hide');
+  setTimeout( () => {
+    block.style.display = 'none';
+  }, 500 );
+};
+
+show(document.querySelector('#startBlock'));
+
+document.querySelector('#start').addEventListener('click', () => {
+  hide(document.querySelector('#startBlock'));
+  setUfo();
+  showBlock(document.querySelector('#controlsBlock'));
+});
+
+document.querySelector('#q').textContent = phiz.q;
+document.querySelector('#m').textContent = phiz.m;
+document.querySelector('#E').textContent = 0;
+document.querySelector('#B').textContent = 0;
+
+function next() {
+  hide(document.querySelector('#winBlock'));
+  if (phiz.EField && phiz.MField) {
+    show(document.querySelector('#finishBlock'));
+    return;
+  };
+  if (!phiz.EField && phiz.MField) {
+    phiz.EField = true;
+    document.querySelector('#E').textContent = phiz.E;
+  };
+  if (phiz.EField && !phiz.MField) {
+    phiz.EField = false;
+    phiz.MField = true;
+    document.querySelector('#E').textContent = 0;
+    document.querySelector('#B').textContent = phiz.B;
+  };
+  if (!phiz.EField && !phiz.MField) {
+    phiz.EField = true;
+    document.querySelector('#E').textContent = phiz.E;
+  };
+  canvasElement.width = 140 * fontSize;
+  canvasElement.height = 80 * fontSize;
+  canvas.lineWidth = 0.4 * fontSize;
+  canvas.lineCap = 'square';
+  canvas.strokeStyle = 'hsl(225, 50%, 85%)';
+
+  phiz.currentT = 100;
+  phiz.currentS = 0;
+  projectile.style.top = 80 - phiz.H + 'rem';
+  projectile.style.left = phiz.currentS + 'rem';
+  ufo.model.style.border = 'none';
+  setUfo();
+  showBlock(document.querySelector('#controlsBlock'));
+};
+
+function reentry() {
+  hide(document.querySelector('#failBlock'));
+
+  canvasElement.width = 140 * fontSize;
+  canvasElement.height = 80 * fontSize;
+  canvas.lineWidth = 0.4 * fontSize;
+  canvas.lineCap = 'square';
+  canvas.strokeStyle = 'hsl(225, 50%, 85%)';
+
+  phiz.currentT = 100;
+  phiz.currentS = 0;
+  projectile.style.top = 80 - phiz.H + 'rem';
+  projectile.style.left = phiz.currentS + 'rem';
+  showBlock(document.querySelector('#controlsBlock'));
 };

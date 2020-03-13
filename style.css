@@ -132,6 +132,7 @@ canvas, #field {
 }
 #ufo {
   width: 9rem; height: 7rem;
+  top: 70rem; left: 135rem;
   position: relative;
   z-index: 9;
   background-image: url(ufo.svg);
@@ -151,18 +152,26 @@ canvas, #field {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transform-origin: center 40%;
   transition: top 0.1s, transform 0.5s;
 }
 
-#controlsBlock {
-  width: 80rem; height: 33rem;
+.popup {
   position: absolute;
-  bottom: 0; left: 50%;
-  transform: translate(-50%, 0);
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 15;
-  column-count: 3;
   border-radius: 1.5rem;
   background-color: var(--dark-bg);
+  transform-origin: left;
+}
+#controlsBlock {
+  width: 80rem; height: 33rem;
+  bottom: 1.5rem;
+  transform: translate(-50%, 0);
+  column-count: 3;
+  opacity: 0;
+  display: none;
 }
 .columnContent {
   padding: 3rem;
@@ -181,7 +190,42 @@ canvas, #field {
   font-weight: 800;
 }
 
-#reload {
+#startBlock, #winBlock, #failBlock, #finishBlock {
+  width: 50rem; height: 20rem;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
   display: none;
-  margin: 2rem 1.2rem;
+}
+.showBlock {
+  animation: showBlock 0.5s cubic-bezier(.18,.89,.32,1.28) 0.2s forwards;
+}
+@keyframes showBlock {
+  0% {transform: scale(0.1) translate(-50%, 0);}
+  100% {opacity: 1; transform: scale(1) translate(-50%, 0);}
+}
+.hideBlock {
+  animation: hideBlock 0.5s cubic-bezier(1,1.47,0,.8) forwards;
+}
+@keyframes hideBlock {
+  0% {opacity: 1; transform: scale(1) translate(-50%, 0);}
+  100% {transform: scale(0.1) translate(-50%, 0);}
+}
+
+.show {
+  animation: show 0.5s cubic-bezier(.18,.89,.32,1.28) 0.2s forwards;
+}
+@keyframes show {
+  0% {transform: scale(0.1) translate(-50%, -50%);}
+  100% {opacity: 1; transform: scale(1) translate(-50%, -50%);}
+}
+.hide {
+  animation: hide 0.5s cubic-bezier(1,1.47,0,.8) forwards;
+}
+@keyframes hide {
+  0% {opacity: 1; transform: scale(1) translate(-50%, -50%);}
+  100% {transform: scale(0.1) translate(-50%, -50%);}
 }

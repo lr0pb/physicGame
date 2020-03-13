@@ -16,7 +16,7 @@
         <div id="ufo" class="icon"></div>
       </div>
     </main>
-    <div id="controlsBlock">
+    <div id="controlsBlock" class="popup">
       <div class="columnContent projectileConditions">
         <h2>Снаряд:</h2>
         <label>q = <span class="digit" id="q"></span> Кл</label>
@@ -38,23 +38,37 @@
         <label>R = <span class="digit">3.5</span> - <span class="digit">4.5</span> м</label>
       </div>
       <div class="columnContent controls">
-        <label for="velocity">V<sub>0</sub> = </label>
+        <label for="velocity">V<sub>0</sub> =</label>
         <input type="text" name="velocity" placeholder="55" pattern="\d*">
-        <label> м/с</label>
+        <label>м/с</label>
         <br>
-        <label for="height">H = </label>
+        <label for="height">H =</label>
         <input type="text" name="height" placeholder="15" pattern="\d*">
-        <label> м</label>
+        <label>м</label>
         <br>
-        <label for="angle">α = </label>
+        <label for="angle">α =</label>
         <input type="text" name="angle" placeholder="45" pattern="\d*">
-        <label> °</label>
+        <label>°</label>
       </div>
       <button id="fire" data-ready="false">Запустить снаряд</button>
     </div>
-    <div>
-      Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+    <div id="startBlock" class="popup">
+      <h2>Сбей тарелку!</h2>
+      <button id="start">Начать</button>
     </div>
-    <button id="reload">Запустить ещё раз</button>
+    <div id="winBlock" class="popup">
+      <h2>Уровень пройден!</h2>
+      <button id="win">Дальше</button>
+    </div>
+    <div id="failBlock" class="popup">
+      <h2>Уровень провален!</h2>
+      <button id="fail">Заново</button>
+    </div>
+    <div id="finishBlock" class="popup">
+      <h2>Ты прошёл всё!</h2>
+    </div>
+    <div>
+      Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware" target="_blank">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank"> www.flaticon.com</a>
+    </div>
   </body>
 </html>

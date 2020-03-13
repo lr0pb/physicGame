@@ -1,8 +1,7 @@
 const fire = document.querySelector('#fire');
-let projectile = {
-      model: document.querySelector('#projectile'),
-    };
-    ufo = {
+      projectile = document.querySelector('#projectile');
+      launcher = document.querySelector('#launcher');
+let ufo = {
       model: document.querySelector('#ufo'),
       left: 0,
       top: 0,
@@ -52,7 +51,9 @@ function loadData() {
     document.querySelector('[name="height"]').value = phiz.H;
     document.querySelector('[name="angle"]').value = phiz.alpha;
   };
-  projectile.model.style.top = 80 - phiz.H + 'rem';
+  projectile.style.top = 80 - phiz.H + 'rem';
+  launcher.style.top = 80 - 6 - phiz.H + 'rem';
+  launcher.style.transform = 'rotateZ(' + (90 - phiz.alpha) + 'deg)';
 };
 
 fire.addEventListener('click', startFlight);
@@ -73,10 +74,12 @@ function change() {
       break;
     case 'height':
       if (this.value >= 60) this.value = 60;
-      projectile.model.style.top = 80 - this.value + 'rem';
+      projectile.style.top = 80 - this.value + 'rem';
+      launcher.style.top = 80 - 6 - this.value + 'rem';
       break;
     case 'angle':
       if (this.value >= 90) this.value = 90;
+      launcher.style.transform = 'rotateZ(' + (90 - this.value) + 'deg)';
       break;
   };
 };
@@ -91,14 +94,21 @@ function blur() {
       };
       break;
     case 'height':
-      if (!this.value) {this.placeholder = '15';}
+      if (!this.value) {
+        this.placeholder = '15';
+        projectile.style.top = 80 - phiz.H + 'rem';
+        launcher.style.top = 80 - 6 - phiz.H + 'rem';
+      }
       else {
         if (this.value >= 60) this.value = 60;
         phiz.H = +this.value;
       };
       break;
     case 'angle':
-      if (!this.value) {this.placeholder = '45';}
+      if (!this.value) {
+        this.placeholder = '45';
+        launcher.style.transform = 'rotateZ(' + (90 - phiz.alpha) + 'deg)';
+      }
       else {
         if (this.value >= 90) this.value = 90;
         phiz.alpha = +this.value;
@@ -164,8 +174,8 @@ function ufoPlacement() {
 setUfo();
 
 function startFlight() {
-  projectile.model.style.top = 80 - phiz.H + 'rem';
-  projectile.model.style.left = '0';
+  projectile.style.top = 80 - phiz.H + 'rem';
+  projectile.style.left = '0';
 
   document.querySelector('#controlsBlock').style.display = 'none';
 
@@ -323,8 +333,8 @@ function EMPositionCalculator() {
 };
 
 function positionPlacement() {
-  projectile.model.style.top = 80 - phiz.currentH + 'rem';
-  projectile.model.style.left = phiz.currentS + 'rem';
+  projectile.style.top = 80 - phiz.currentH + 'rem';
+  projectile.style.left = phiz.currentS + 'rem';
   canvas.moveTo(phiz.previousS * fontSize, (80 - phiz.previousH) * fontSize);
   canvas.lineTo(phiz.previousS * fontSize, (80 - phiz.previousH) * fontSize);
   canvas.stroke();
@@ -343,14 +353,14 @@ function end() {
   console.log('end');
   stop();
 
-  projectile.model.style.top = 80 - phiz.currentH + 'rem';
-  projectile.model.style.left = phiz.fullS + 'rem';
+  projectile.style.top = 80 - phiz.currentH + 'rem';
+  projectile.style.left = phiz.fullS + 'rem';
 
   phiz.currentT = 100;
   phiz.currentS = 0;
   phiz.currentH = 0;
   if (phiz.EField && !phiz.MField) {
-    projectile.model.style.top = '80rem';
+    projectile.style.top = '80rem';
   };
 };
 
@@ -369,16 +379,16 @@ function checkCollision() {
   if (phiz.currentS >= 140) {
     console.log('right border');
     stop();
-    projectile.model.style.left = '140rem';
+    projectile.style.left = '140rem';
   };
   if (!phiz.MField && phiz.currentH < 0) {
     console.log('bottom border');
     stop();
-    projectile.model.style.top = '80rem';
+    projectile.style.top = '80rem';
   };
   if (!phiz.EField && !phiz.MField && phiz.currentH >= 80) {
     console.log('top border');
     stop();
-    projectile.model.style.top = '0rem';
+    projectile.style.top = '0rem';
   };
 };

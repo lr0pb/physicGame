@@ -151,7 +151,7 @@ canvas, #field {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: transform 0.5s;
+  transition: top 0.1s, transform 0.5s;
 }
 
 #controlsBlock {

@@ -363,16 +363,20 @@ function next() {
   if (!phiz.EField && phiz.MField) {
     phiz.EField = true;
     document.querySelector('#E').textContent = phiz.E;
+    document.querySelector('#electro').style.opacity = '1';
   };
   if (phiz.EField && !phiz.MField) {
     phiz.EField = false;
     phiz.MField = true;
     document.querySelector('#E').textContent = 0;
     document.querySelector('#B').textContent = phiz.B;
+    document.querySelector('#electro').style.opacity = '0';
+    document.querySelector('#magnetic').style.opacity = '1';
   };
   if (!phiz.EField && !phiz.MField) {
     phiz.EField = true;
     document.querySelector('#E').textContent = phiz.E;
+    document.querySelector('#electro').style.opacity = '1';
   };
 
   setUfo();

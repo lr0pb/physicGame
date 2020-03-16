@@ -110,7 +110,7 @@ main {
   background-color: var(--light-bg);
   border: 0.5rem solid var(--shadow);
 }
-canvas, #field {
+canvas, #field, #electro, #magnetic {
   width: inherit; height: inherit;
   top: 0; left: 50%;
   transform: translateX(-50%);
@@ -118,6 +118,27 @@ canvas, #field {
   z-index: 8;
   background-color: transparent;
   border: 0.5rem solid transparent;
+}
+#electro, #magnetic {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.electro, .magnetic {
+  width: 10rem; height: 5rem;
+  background-repeat: repeat-x;
+  background-size: 50%;
+}
+#electro {
+  background-color: hsla(225, 40%, 50%, 0.5);
+}
+.electro {
+  background-image: url(electro.svg);
+}
+#magnetic {
+  background-color: hsla(0, 40%, 50%, 0.5);
+}
+.magnetic {
+  background-image: url(magnetic.svg);
 }
 #projectile {
   width: 1rem; height: 1rem;
@@ -166,7 +187,7 @@ canvas, #field {
   transform-origin: left;
 }
 #controlsBlock {
-  width: 80rem; height: 33rem;
+  width: 80rem; height: 33.5rem;
   bottom: 1.5rem;
   transform: translate(-50%, 0);
   column-count: 3;
@@ -177,13 +198,16 @@ canvas, #field {
   padding: 3rem;
 }
 .projectileConditions {
-  height: 10.5rem;
+  height: 9rem;
+}
+.maxValues {
+  height: 12rem;
 }
 .fieldConditions {
-  height: 10.5rem;
+  height: 9rem;
 }
 .ufoConditions {
-  height: 27rem;
+  height: 12rem;
 }
 .digit {
   font-size: 120%;
@@ -200,6 +224,7 @@ canvas, #field {
   opacity: 0;
   display: none;
 }
+
 .showBlock {
   animation: showBlock 0.5s cubic-bezier(.18,.89,.32,1.28) 0.2s forwards;
 }

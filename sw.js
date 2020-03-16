@@ -5,7 +5,7 @@ self.addEventListener('install', function(e) {
     cashes.open(CASHE)
       .then( (cashe) => {
         return cashe.addAll([
-          '/launcher.svg'
+          '/launcher.svg',
           '/ufo.svg',
           '/electro.svg',
           '/magnetic.svg'

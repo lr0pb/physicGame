@@ -13,8 +13,9 @@ let ufo = {
     distance = 0;
     dx = 0;
     dy = 0;
-    i = 1;
+let beforeIteration;
 let iteration;
+let afterIteration;
 
 window.addEventListener('load', normalize);
 window.addEventListener('resize', normalize);
@@ -165,27 +166,49 @@ function ufoPlacement() {
   document.querySelector('#ufoY').textContent = ufo.top;
 };
 
-function NStart() {
+function start() {
   canvas.beginPath();
   canvas.moveTo(0, (80 - phiz.H) * fontSize);
   phiz.currentH = phiz.H;
-  NPositionCalculator();
-  iteration = setInterval(NPositionCalculator, 100);
+  beforePositionCalculator();
+  beforeIteration = setInterval(beforePositionCalculator, 100);
+
+  if (!phiz.EField && !phiz.MField) {
+    NPositionCalculator();
+    iteration = setInterval(NPositionCalculator, 100);
+  };
+  if (phiz.EField && !phiz.MField) {
+    EStart();
+    EPositionCalculator();
+    iteration = setInterval(EPositionCalculator, 100);
+  };
+  if (!phiz.EField && phiz.MField) {
+    MStart();
+    MPositionCalculator();
+    iteration = setInterval(MPositionCalculator, 100);
+  };
+  if (phiz.EField && phiz.MField) {
+    EMStart();
+    EMPositionCalculator();
+    iteration = setInterval(EMPositionCalculator, 100);
+  };
+
+  afterIteration = setInterval(afterPositionCalculator, 100);
 };
 
-function NPositionCalculator() {
+function beforePositionCalculator() {
   phiz.previousH = phiz.currentH;
   phiz.previousS = phiz.currentS;
-  phiz.currentS = phiz.V0 * (phiz.currentT / 1000);
-  phiz.currentH = phiz.H + Math.tan(phiz.alpha * Math.PI / 180) * phiz.currentS;
-
+};
+function afterPositionCalculator() {
   positionPlacement();
   phiz.currentT += 100;
   checkCollision();
+};
 
-  //console.log(i + ' : ' + phiz.currentS);
-  console.log(i + ' : ' + phiz.currentH);
-  i++;
+function NPositionCalculator() {
+  phiz.currentS = phiz.V0 * (phiz.currentT / 1000);
+  phiz.currentH = phiz.H + Math.tan(phiz.alpha * Math.PI / 180) * phiz.currentS;
 };
 
 function EStart() {
@@ -195,36 +218,14 @@ function EStart() {
 
   phiz.fullT = ( phiz.Vy + Math.sqrt(Math.pow(phiz.Vy, 2) + 2 * phiz.a * phiz.H) ) / phiz.a * 1000;
   phiz.fullS = phiz.Vx * phiz.fullT / 1000;
-
-  console.log(phiz.fullT);
-  console.log(phiz.fullS);
-
-  canvas.beginPath();
-  canvas.moveTo(0, (80 - phiz.H) * fontSize);
-  phiz.currentH = phiz.H;
-  EPositionCalculator();
-  iteration = setInterval(EPositionCalculator, 100);
 };
-
 function EPositionCalculator() {
-  phiz.previousH = phiz.currentH;
-  phiz.previousS = phiz.currentS;
   phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - phiz.a * Math.pow(phiz.currentT / 1000, 2) / 2);
   phiz.currentS = phiz.Vx * phiz.currentT / 1000;
 
-  if (phiz.currentT < phiz.fullT) {
-    positionPlacement();
-    phiz.currentT += 100;
-  } else {
-    i = 0;
+  if (phiz.currentT >= phiz.fullT) {
     end();
   };
-  if (phiz.currentS > phiz.fullS * 0.4) {
-    checkCollision();
-  };
-  //console.log(i + ' : ' + phiz.currentS);
-  console.log(i + ' : ' + phiz.currentH);
-  i++;
 };
 
 function MStart() {
@@ -234,35 +235,15 @@ function MStart() {
   phiz.Cy = phiz.R * Math.cos(phiz.alpha * Math.PI / 180);
 
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
-
-  console.log(phiz.fullT);
-
-  canvas.beginPath();
-  canvas.moveTo(0, (80 - phiz.H) * fontSize);
-  phiz.currentH = phiz.H;
-  MPositionCalculator();
-  iteration = setInterval(MPositionCalculator, 100);
 };
-
 function MPositionCalculator() {
-  phiz.previousH = phiz.currentH;
-  phiz.previousS = phiz.currentS;
   phiz.currentH = phiz.H - phiz.Cy + phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
   phiz.currentS = phiz.Cx + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
 
-  if (phiz.currentT < phiz.fullT) {
-    positionPlacement();
-    phiz.currentT += 100;
-  } else {
-    i = 0;
+  if (phiz.currentT >= phiz.fullT) {
     end();
   };
-  checkCollision();
-  //console.log(i + ' : ' + phiz.currentS);
-  console.log(i + ' : ' + phiz.currentH);
-  i++;
 };
-
 
 function EMStart() {
   phiz.omega = phiz.q * phiz.B / phiz.m;
@@ -274,32 +255,12 @@ function EMStart() {
   phiz.Cy = -1 * (phiz.R * Math.sin(phiz.alpha * Math.PI / 180));
 
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
-
-  console.log(phiz.R);
-  console.log(phiz.fullT);
-
-  canvas.beginPath();
-  canvas.moveTo(0, (80 - phiz.H) * fontSize);
-  phiz.currentH = phiz.H;
-  EMPositionCalculator();
-  iteration = setInterval(EMPositionCalculator, 100);
 };
-
 function EMPositionCalculator() {
-  phiz.previousH = phiz.currentH;
-  phiz.previousS = phiz.currentS;
   phiz.currentH = phiz.H + ( phiz.Cy + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
   phiz.currentS = phiz.Cx - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
 
   if (phiz.currentH <= 0) phiz.currentH = 0;
-
-  positionPlacement();
-  phiz.currentT += 100;
-
-  checkCollision();
-  //console.log(i + ' : ' + phiz.currentS);
-  console.log(i + ' : ' + phiz.currentH);
-  i++;
 };
 
 function positionPlacement() {
@@ -312,7 +273,9 @@ function positionPlacement() {
 
 function stop() {
   console.log('stop');
+  clearInterval(beforeIteration);
   clearInterval(iteration);
+  clearInterval(afterIteration);
 };
 
 function end() {
@@ -322,9 +285,6 @@ function end() {
   projectile.style.top = 80 - phiz.currentH + 'rem';
   projectile.style.left = phiz.fullS + 'rem';
 
-  phiz.currentT = 100;
-  phiz.currentS = 0;
-  phiz.currentH = 0;
   if (phiz.EField && !phiz.MField) {
     projectile.style.top = '80rem';
   };
@@ -333,11 +293,8 @@ function end() {
 
 function checkCollision() {
   distance = Math.sqrt(Math.pow(ufo.left - phiz.currentS, 2) + Math.pow(ufo.top - phiz.currentH, 2));
-  //console.log('d : ' + distance);
   dx = ufo.left - phiz.currentS;
   dy = ufo.top - phiz.currentH;
-  //console.log(dx);
-  //console.log(dy);
   if (dx >= -4.5 && dx<= 4.5 && dy >= -3.5 && dy <= 3.5 && distance <= 4.5) {
     console.log('collision');
     stop();
@@ -365,40 +322,12 @@ function checkCollision() {
 };
 
 function win() {
+  console.log('win');
   show(document.querySelector('#winBlock'));
 };
 function fail() {
+  console.log('fail');
   show(document.querySelector('#failBlock'));
-};
-document.querySelector('#win').addEventListener('click', next);
-document.querySelector('#fail').addEventListener('click', reentry);
-
-function showBlock(block) {
-  block.classList.contains('hideBlock') ? block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
-  block.style.display = 'block';
-  setTimeout( () => {
-    block.classList.add('showBlock');
-  }, 40 );
-};
-function hideBlock(block) {
-  block.classList.contains('showBlock') ? block.classList.replace('showBlock','hideBlock') : block.classList.add('hideBlock');
-  block.style.display = 'block';
-  setTimeout( () => {
-    block.classList.add('hideBlock');
-  }, 40 );
-};
-function show(block) {
-  block.classList.contains('hide') ? block.classList.replace('hide','show') : block.classList.add('show');
-  block.style.display = 'flex';
-  setTimeout( () => {
-    block.classList.add('show');
-  }, 40 );
-};
-function hide(block) {
-  block.classList.contains('show') ? block.classList.replace('show','hide') : block.classList.add('hide');
-  setTimeout( () => {
-    block.style.display = 'none';
-  }, 500 );
 };
 
 show(document.querySelector('#startBlock'));
@@ -412,23 +341,8 @@ document.querySelector('#start').addEventListener('click', () => {
 fire.addEventListener('click', startFlight);
 
 function startFlight() {
-  projectile.style.top = 80 - phiz.H + 'rem';
-  projectile.style.left = '0';
-
   hideBlock(document.querySelector('#controlsBlock'));
-
-  if (!phiz.EField && !phiz.MField) {
-    NStart();
-  };
-  if (phiz.EField && !phiz.MField) {
-    EStart();
-  };
-  if (!phiz.EField && phiz.MField) {
-    MStart();
-  };
-  if (phiz.EField && phiz.MField) {
-    EMStart();
-  };
+  start();
 };
 
 document.querySelector('#q').textContent = phiz.q;
@@ -436,8 +350,12 @@ document.querySelector('#m').textContent = phiz.m;
 document.querySelector('#E').textContent = 0;
 document.querySelector('#B').textContent = 0;
 
+document.querySelector('#win').addEventListener('click', next);
+document.querySelector('#fail').addEventListener('click', reentry);
+
 function next() {
   hide(document.querySelector('#winBlock'));
+
   if (phiz.EField && phiz.MField) {
     show(document.querySelector('#finishBlock'));
     return;
@@ -456,33 +374,58 @@ function next() {
     phiz.EField = true;
     document.querySelector('#E').textContent = phiz.E;
   };
-  canvasElement.width = 140 * fontSize;
-  canvasElement.height = 80 * fontSize;
-  canvas.lineWidth = 0.4 * fontSize;
-  canvas.lineCap = 'square';
-  canvas.strokeStyle = 'hsl(225, 50%, 85%)';
 
-  phiz.currentT = 100;
-  phiz.currentS = 0;
-  projectile.style.top = 80 - phiz.H + 'rem';
-  projectile.style.left = phiz.currentS + 'rem';
-  ufo.model.style.border = 'none';
   setUfo();
-  showBlock(document.querySelector('#controlsBlock'));
+  backToStart();
 };
 
 function reentry() {
   hide(document.querySelector('#failBlock'));
+  backToStart();
+};
 
-  canvasElement.width = 140 * fontSize;
-  canvasElement.height = 80 * fontSize;
-  canvas.lineWidth = 0.4 * fontSize;
-  canvas.lineCap = 'square';
-  canvas.strokeStyle = 'hsl(225, 50%, 85%)';
-
+function backToStart() {
+  canvas.clearRect(0, 0, canvasElement.width, canvasElement.height);
   phiz.currentT = 100;
   phiz.currentS = 0;
   projectile.style.top = 80 - phiz.H + 'rem';
-  projectile.style.left = phiz.currentS + 'rem';
+  projectile.style.left = '0';
+  ufo.model.style.border = 'none';
   showBlock(document.querySelector('#controlsBlock'));
+};
+
+function showBlock(block) {
+  block.classList.contains('hideBlock') ?
+  block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
+
+  block.style.display = 'block';
+  setTimeout( () => {
+    block.classList.add('showBlock');
+  }, 40 );
+};
+function hideBlock(block) {
+  block.classList.contains('showBlock') ?
+  block.classList.replace('showBlock','hideBlock') : block.classList.add('hideBlock');
+
+  block.style.display = 'block';
+  setTimeout( () => {
+    block.classList.add('hideBlock');
+  }, 40 );
+};
+function show(block) {
+  block.classList.contains('hide') ?
+  block.classList.replace('hide','show') : block.classList.add('show');
+
+  block.style.display = 'flex';
+  setTimeout( () => {
+    block.classList.add('show');
+  }, 40 );
+};
+function hide(block) {
+  block.classList.contains('show') ?
+  block.classList.replace('show','hide') : block.classList.add('hide');
+
+  setTimeout( () => {
+    block.style.display = 'none';
+  }, 500 );
 };

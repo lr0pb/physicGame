@@ -1,14 +1,17 @@
 const appVersion = 1;
       appName = 'physicGame';
-      appCashe = appName + '-v' + appVersion;
-      offlineFiles = ['./index.html','./style.css','/script.js','./ufo.svg','./launcher.svg','./electro.svg','./magnetic.svg'];
+      appCache = appName + appVersion;
+      offlineFiles = ['./index.html','./style.css','./script.js','./ufo.svg','./launcher.svg','./electro.svg','./magnetic.svg'];
 
 self.addEventListener('install', function (e) {
   console.log('[SW] install');
   skipWaiting();
   e.waitUntil(
-    cashes.open(appCashe).then(function (cashe) {
-      cashe.addAll(offlineFiles);
+    caches.open(appCache).then(function (cache) {
+      cache.addAll(offlineFiles).then(function (cache) {
+        console.log('[SW] cashe added');
+        console.log(cache);
+      });
     })
   );
 });
@@ -17,9 +20,9 @@ self.addEventListener('activate', function (e) {
   console.log('[SW] activate');
   clients.claim();
   e.waitUntil(
-    cashes.keys().then(function (keys) {
+    caches.keys().then(function (keys) {
       Promise.all(
-        keys.map( (key) => key == appCashe || cashes.delete(key) )
+        keys.map( (key) => key == appCache || caches.delete(key) )
       );
     })
   );
@@ -28,7 +31,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
   e.respondWith(
-    cashes.match(e.request).then(function (response) {
+    caches.match(e.request).then(function (response) {
       return response || fetch(e.request);
     })
   );

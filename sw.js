@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 3;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -19,7 +19,7 @@ self.addEventListener('install', function (e) {
     caches.open(appCache).then(function (cache) {
       cache.addAll(offlineFiles).then(function () {
         console.log('[SW] cashe added');
-      });
+      })
     })
   );
 });
@@ -41,19 +41,18 @@ self.addEventListener('fetch', function (e) {
   e.respondWith(
     caches.open(appCache).then(function (cache) {
       cache.match(e.request).then(function (response) {
-        if (response) {
-          return response;
-        } else {
-          e.waitUntil(
-            fetch(e.request).then(function (response) {
-              if (response.ok) {
-                cashe.put(e.request, response.clone())
-              };
-              return response;
-            })
-          )
-        };
+        if (response) return response;
       })
+    })
+  );
+  e.waitUntil(
+    fetch(e.request).then(function (response) {
+      if (response.ok) {
+        cashe.put(e.request, response.clone()).then(function () {
+          console.log('[SW] new cache');
+        })
+      };
+      return response;
     })
   );
 });

@@ -31,6 +31,6 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
   e.respondWith(
-    caches.match(e.request);
+    caches.match(e.request)
   );
 });

@@ -1,4 +1,4 @@
-const appVersion = 1;
+const appVersion = 2;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -44,12 +44,14 @@ self.addEventListener('fetch', function (e) {
         if (response) {
           return response;
         } else {
-          fetch(e.request).then(function (response) {
-            if (response.ok) {
-              cashe.put(e.request, response.clone())
-            };
-            return response;
-          })
+          e.waitUntil(
+            fetch(e.request).then(function (response) {
+              if (response.ok) {
+                cashe.put(e.request, response.clone())
+              };
+              return response;
+            })
+          )
         };
       })
     })

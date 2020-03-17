@@ -39,10 +39,22 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
   e.respondWith(
-    caches.match(e.request)
-    /*caches.open(appCache).then(function (cache) {
-      caches.match(e.request)
-    })*/
+    //caches.match(e.request)
+    caches.open(appCache).then(function (cache) {
+      caches.match(request).then(function (response) {
+        if (response) return response;
+        fetch(e.request).then(function (response) {
+          console.log(response.url);
+          console.log(response.clone().url);
+          if (response.ok) {
+            cashe.put(e.request, response.clone().url).then(function () {
+              console.log('[SW] new cache');
+            })
+          };
+          return response;
+        })
+      })
+    })
   );
 });
 

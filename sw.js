@@ -1,7 +1,7 @@
-const appVersion = 3;
+const appVersion = 4;
       appName = 'physicGame';
       appCache = appName + appVersion;
-      offlineFiles = ['./index.html','./style.css','./script.js','./ufo.svg','./launcher.svg','./electro.svg','./magnetic.svg'];
+      offlineFiles = ['./','./index.html','./style.css','./script.js','./ufo.svg','./launcher.svg','./electro.svg','./magnetic.svg'];
 
 self.addEventListener('install', function (e) {
   console.log('[SW] install');

@@ -3,6 +3,11 @@ window.addEventListener('load', function () {
     navigator.serviceWorker.register('./sw.js')
   };
 });
+window.addEventListener('message', function (e) {
+  if (e.origin == window.origin && e.data == 'update') {
+    console.log('[Main] update');
+  };
+});
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

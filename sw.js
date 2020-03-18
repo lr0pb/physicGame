@@ -1,4 +1,4 @@
-const appVersion = 3;
+const appVersion = 4;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -40,31 +40,30 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
   e.respondWith(
-    (async () => {
+    (async function () {
       const cacheResponse = await caches.match(e.request);
       if (cacheResponse) return cacheResponse;
 
       fetch(e.request).then(function (response) {
         if (response.ok) {
           caches.open(appCache).then(function (cache) {
-            cache.put(e.request, response).then(function () {
-              console.log('[SW] new cache');
+            cache.put(e.request, response.clone()).then(function () {
+              console.log('[SW] add new cache ' + e.request.url);
             })
           })
         };
-        return fetch(e.request);
+        return response;
       })
     }) ()
   );
   e.waitUntil(
     fetch(e.request).then(async function (response) {
       const cacheResponse = await caches.match(e.request);
-      console.log(cacheResponse.headers.get('ETag'));
-      console.log(response.headers.get('ETag'));
       if (cacheResponse.headers.get('ETag') != response.headers.get('ETag')) {
         caches.open(appCache).then(function (cache) {
           cache.put(e.request, response).then(function () {
-            console.log('[SW] new version');
+            console.log('[SW] new version of ' + e.request.url);
+            client.postMessage('update');
           })
         })
       };

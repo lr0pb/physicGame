@@ -1,6 +1,7 @@
-const appVersion = 6;
+const appVersion = 7;
       appName = 'physicGame';
       appCache = appName + appVersion;
+      serverName = 'GitHub.com';
       offlineFiles = [
         './',
         './index.html',
@@ -51,7 +52,7 @@ self.addEventListener('fetch', function (e) {
     (async function () {
       const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
-      if (fetchResponse.headers.get('server') == 'Github.com' && fetchResponse.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
+      if (fetchResponse.headers.get('server') == serverName && fetchResponse.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
         updateCache(e.request, fetchResponse)
       };
     })()
@@ -68,6 +69,7 @@ async function addCache(request) {
     } else {
       response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
     };
+    console.log(response);
     return response;
   })
 };

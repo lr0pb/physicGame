@@ -1,4 +1,4 @@
-const appVersion = 5;
+const appVersion = 6;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -28,29 +28,33 @@ self.addEventListener('activate', function (e) {
   clients.claim();
   e.waitUntil(
     caches.keys().then(function (keys) {
-      keys.map( (key) => key == appCache || caches.delete(key) )
+      Promise.all(
+        keys.map( (key) => key == appCache || caches.delete(key) )
+      );
     })
   );
 });
 
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
-  e.respondWith(async function () {
+  e.respondWith(
+    (async function () {
       let cacheResponse = await caches.match(e.request);
       if (cacheResponse) {
-        cacheResponse.headers.set('cache-control','max-age=1209600');
+        //cacheResponse.headers.set('cache-control','max-age=1209600');
         return cacheResponse;
       };
       return addCache(e.request);
-    }
+    })()
   );
-  e.waitUntil(async function () {
+  e.waitUntil(
+    (async function () {
       const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
       if (fetchResponse.headers.get('server') == 'Github.com' && fetchResponse.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
         updateCache(e.request, fetchResponse)
       };
-    }
+    })()
   );
 });
 

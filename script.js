@@ -1,6 +1,8 @@
 window.addEventListener('load', function () {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
+    navigator.serviceWorker.register('./sw.js').then(function () {
+      fetch('https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic');
+    });
   };
 });
 window.addEventListener('message', function (e) {

@@ -1,4 +1,4 @@
-const appVersion = 8;
+const appVersion = 9;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -32,7 +32,7 @@ self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
       Promise.all(
-        keys.map( (key) => key == appCache || caches.delete(key) );
+        keys.map( (key) => key == appCache || caches.delete(key) )
       );
     })
   );
@@ -44,17 +44,7 @@ self.addEventListener('fetch', function (e) {
     (async function () {
       const cacheResponse = await caches.match(e.request);
       if (cacheResponse) return cacheResponse;
-
-      fetch(e.request).then(function (response) {
-        if (response.ok) {
-          caches.open(appCache).then(function (cache) {
-            cache.put(e.request, response.clone()).then(function () {
-              console.log('[SW] add new cache ' + e.request.url);
-            })
-          })
-        };
-        return response;
-      })
+      return addCache(e.request);
     }) ()
   );
   e.waitUntil(
@@ -67,6 +57,16 @@ self.addEventListener('fetch', function (e) {
   );
 });
 
+async function addCache(request) {
+  const response = await fetch(request);
+  response.ok ?
+    caches.open(appCache).then(function (cache) {
+      cache.put(request, response.clone());
+    }) :
+    response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
+  return response;
+};
+
 async function updateCache(request, response) {
   console.log('[SW] update cache');
   caches.open(appCache).then(function (cache) {
@@ -74,7 +74,20 @@ async function updateCache(request, response) {
   })
   clients.matchAll().then(function (client) {
     Promise.all(
-      clients.map( (client) => client.postMessage('update') );
+      clients.map( (client) => client.postMessage('update') )
     );
   })
 };
+
+/*
+fetch(e.request).then(function (response) {
+  if (response.ok) {
+    caches.open(appCache).then(function (cache) {
+      cache.put(e.request, response.clone()).then(function () {
+        console.log('[SW] add new cache ' + e.request.url);
+      })
+    })
+  };
+  return response;
+})
+*/

@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 3;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -43,7 +43,10 @@ self.addEventListener('fetch', function (e) {
   e.respondWith(
     (async function () {
       const cacheResponse = await caches.match(e.request);
-      if (cacheResponse) return cacheResponse;
+      if (cacheResponse) {
+        cacheResponse.headers.set('cache-control','max-age=1209600');
+        return cacheResponse;
+      };
       return addCache(e.request);
     }) ()
   );
@@ -51,27 +54,24 @@ self.addEventListener('fetch', function (e) {
     (async function () {
       const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
-      console.log(cacheResponse.url + ' : ' + cacheResponse.headers.get('ETag'));
-      fetchResponse == cacheResponse || updateCache(e.request, fetchResponse)
+      if (fetchResponse.headers.get('server') == 'Github.com' && fetchResponse.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
+        updateCache(e.request, fetchResponse)
+      };
     })()
   );
 });
 
 async function addCache(request) {
-  /*let response = await fetch(request);
-  response.ok ?
-    caches.open(appCache).then(function (cache) {
-      cache.put(request, response.clone());
-    }) :
-    response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
-  return response;*/
+  console.log('[SW] add new cache');
   fetch(request).then(function (response) {
-    response.ok ?
+    if (response.ok) {
       caches.open(appCache).then(function (cache) {
         cache.put(request, response.clone());
-      }) :
+      })
+    } else {
       response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
-      return response;
+    };
+    return response;
   })
 };
 
@@ -80,22 +80,10 @@ async function updateCache(request, response) {
   caches.open(appCache).then(function (cache) {
     cache.put(request, response);
   })
+  console.log(clients);
   clients.matchAll().then(function (client) {
     Promise.all(
-      client.postMessage('update');
+      client.postMessage('update')
     );
   })
 };
-
-/*
-fetch(e.request).then(function (response) {
-  if (response.ok) {
-    caches.open(appCache).then(function (cache) {
-      cache.put(e.request, response.clone()).then(function () {
-        console.log('[SW] add new cache ' + e.request.url);
-      })
-    })
-  };
-  return response;
-})
-*/

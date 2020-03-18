@@ -1,4 +1,4 @@
-const appVersion = 6;
+const appVersion = 7;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -60,14 +60,14 @@ self.addEventListener('fetch', function (e) {
   e.waitUntil(
     fetch(e.request).then(async function (response) {
       const cacheResponse = await caches.match(e.request);
-      if (cacheResponse.headers.get('ETag') != response.headers.get('ETag')) {
+      if (response.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
         caches.open(appCache).then(function (cache) {
           cache.put(e.request, response).then(function () {
             console.log('[SW] new version of ' + e.request.url);
             clients.matchAll().then(function (client) {
-              for (let client of clients) {
+              clients.forEach(function (client) {
                 client.postMessage('update');
-              };
+              });
             })
           })
         })

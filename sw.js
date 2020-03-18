@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 3;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -16,7 +16,7 @@ const appVersion = 2;
 self.addEventListener('install', function (e) {
   console.log('[SW] install');
   e.waitUntil(
-    skipWaiting();
+    self.skipWaiting();
     caches.open(appCache).then(function (cache) {
       cache.addAll(offlineFiles);
     })
@@ -26,7 +26,7 @@ self.addEventListener('install', function (e) {
 self.addEventListener('activate', function (e) {
   console.log('[SW] activate');
   e.waitUntil(
-    clients.claim();
+    self.clients.claim();
     caches.keys().then(function (keys) {
       keys.map( (key) => key == appCache || caches.delete(key) )
     })

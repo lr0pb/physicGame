@@ -69,7 +69,6 @@ async function addCache(request) {
     } else {
       response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
     };
-    console.log(response);
     return response;
   })
 };

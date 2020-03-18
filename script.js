@@ -7,6 +7,7 @@ window.addEventListener('load', function () {
 });
 window.addEventListener('message', function (e) {
   console.log(e.origin);
+  console.log(e.data);
   if (e.origin == window.origin && e.data == 'update') {
     console.log('[Main] update');
   };

@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 1;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -80,6 +80,7 @@ async function updateCache(request, response) {
   })
   const allClients = await clients.matchAll();
   for (let client of allClients) {
+    console.log(client);
     client.postMessage('update');
   };
 };

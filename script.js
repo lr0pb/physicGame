@@ -4,10 +4,12 @@ window.addEventListener('load', function () {
   };
 });
 window.addEventListener('message', function (e) {
+  console.log(e.origin);
   if (e.origin == window.origin && e.data == 'update') {
     console.log('[Main] update');
   };
 });
+console.log('its work');
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

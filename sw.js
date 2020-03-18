@@ -1,4 +1,4 @@
-const appVersion = 1;
+const appVersion = 2;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -15,49 +15,42 @@ const appVersion = 1;
 
 self.addEventListener('install', function (e) {
   console.log('[SW] install');
-  skipWaiting();
   e.waitUntil(
+    skipWaiting();
     caches.open(appCache).then(function (cache) {
-      cache.addAll(offlineFiles).then(function () {
-        console.log('[SW] cashe added');
-        skipWaiting();
-      })
+      cache.addAll(offlineFiles);
     })
   );
 });
 
 self.addEventListener('activate', function (e) {
   console.log('[SW] activate');
-  clients.claim();
   e.waitUntil(
+    clients.claim();
     caches.keys().then(function (keys) {
-      Promise.all(
-        keys.map( (key) => key == appCache || caches.delete(key) )
-      );
+      keys.map( (key) => key == appCache || caches.delete(key) )
     })
   );
 });
 
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch');
-  e.respondWith(
-    (async function () {
+  e.respondWith(async function () {
       let cacheResponse = await caches.match(e.request);
       if (cacheResponse) {
         cacheResponse.headers.set('cache-control','max-age=1209600');
         return cacheResponse;
       };
       return addCache(e.request);
-    }) ()
+    }
   );
-  e.waitUntil(
-    (async function () {
+  e.waitUntil(async function () {
       const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
       if (fetchResponse.headers.get('server') == 'Github.com' && fetchResponse.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
         updateCache(e.request, fetchResponse)
       };
-    })()
+    }
   );
 });
 
@@ -80,10 +73,10 @@ async function updateCache(request, response) {
   caches.open(appCache).then(function (cache) {
     cache.put(request, response);
   })
-  console.log(clients);
+  console.log(clients.matchAll());
   clients.matchAll().then(function (client) {
     Promise.all(
-      client.postMessage('update')
+      client.map( (client) => client.postMessage('update') )
     );
   })
 };

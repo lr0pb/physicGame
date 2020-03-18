@@ -1,4 +1,4 @@
-const appVersion = 1;
+const appVersion = 2;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -9,7 +9,8 @@ const appVersion = 1;
         './ufo.svg',
         './launcher.svg',
         './electro.svg',
-        './magnetic.svg'
+        './magnetic.svg',
+        'https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic'
       ];
 
 self.addEventListener('install', function (e) {
@@ -43,6 +44,7 @@ self.addEventListener('fetch', function (e) {
       cacheResponse = await caches.match(e.request);
       if (cacheResponse) return cacheResponse;
 
+      console.log(e.request);
       fetch(e.request).then(function (response) {
         if (response.ok) {
           caches.open(appCache).then(function (cache) {

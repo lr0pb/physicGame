@@ -1,4 +1,4 @@
-const appVersion = 7;
+const appVersion = 8;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -32,7 +32,7 @@ self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keys) {
       Promise.all(
-        keys.map( (key) => key == appCache || caches.delete(key) )
+        keys.map( (key) => key == appCache || caches.delete(key) );
       );
     })
   );
@@ -58,20 +58,23 @@ self.addEventListener('fetch', function (e) {
     }) ()
   );
   e.waitUntil(
-    fetch(e.request).then(async function (response) {
+    (async function () {
+      const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
-      if (response.headers.get('ETag') != cacheResponse.headers.get('ETag')) {
-        caches.open(appCache).then(function (cache) {
-          cache.put(e.request, response).then(function () {
-            console.log('[SW] new version of ' + e.request.url);
-            clients.matchAll().then(function (client) {
-              clients.forEach(function (client) {
-                client.postMessage('update');
-              });
-            })
-          })
-        })
-      };
-    })
+      console.log(cacheResponse);
+      fetchResponse.headers.get('ETag') == cacheResponse.headers.get('ETag') || updateCache(e.request, fetchResponse)
+    })()
   );
 });
+
+async function updateCache(request, response) {
+  console.log('[SW] update cache');
+  caches.open(appCache).then(function (cache) {
+    cache.put(request, response);
+  })
+  clients.matchAll().then(function (client) {
+    Promise.all(
+      clients.map( (client) => client.postMessage('update') );
+    );
+  })
+};

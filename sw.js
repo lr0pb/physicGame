@@ -1,4 +1,4 @@
-const appVersion = 7;
+const appVersion = 1;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -78,10 +78,9 @@ async function updateCache(request, response) {
   caches.open(appCache).then(function (cache) {
     cache.put(request, response);
   })
-  console.log(clients.matchAll());
-  clients.matchAll().then(function (client) {
-    Promise.all(
-      client.map( (client) => client.postMessage('update') )
-    );
-  })
+  const allClients = await clients.matchAll();
+  for (let client of allClients) {
+    client.focus();
+    client.postMessage('update');
+  };
 };

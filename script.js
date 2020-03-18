@@ -365,6 +365,9 @@ document.querySelector('#B').textContent = 0;
 
 document.querySelector('#win').addEventListener('click', next);
 document.querySelector('#fail').addEventListener('click', reentry);
+document.querySelector('#reload').addEventListener('click', function () {
+  document.location.reload();
+});
 
 function next() {
   hide(document.querySelector('#winBlock'));

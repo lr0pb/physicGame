@@ -1,4 +1,4 @@
-const appVersion = 9;
+const appVersion = 1;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -51,20 +51,28 @@ self.addEventListener('fetch', function (e) {
     (async function () {
       const fetchResponse = await fetch(e.request);
       const cacheResponse = await caches.match(e.request);
-      console.log(cacheResponse);
-      fetchResponse.headers.get('ETag') == cacheResponse.headers.get('ETag') || updateCache(e.request, fetchResponse)
+      console.log(cacheResponse.headers.get('ETag'));
+      fetchResponse == cacheResponse || updateCache(e.request, fetchResponse)
     })()
   );
 });
 
 async function addCache(request) {
-  const response = await fetch(request);
+  /*let response = await fetch(request);
   response.ok ?
     caches.open(appCache).then(function (cache) {
       cache.put(request, response.clone());
     }) :
     response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
-  return response;
+  return response;*/
+  fetch(request).then(function (response) {
+    response.ok ?
+      caches.open(appCache).then(function (cache) {
+        cache.put(request, response.clone());
+      }) :
+      response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
+      return response;
+  })
 };
 
 async function updateCache(request, response) {

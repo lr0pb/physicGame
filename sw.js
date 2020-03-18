@@ -1,4 +1,4 @@
-const appVersion = 5;
+const appVersion = 6;
       appName = 'physicGame';
       appCache = appName + appVersion;
       offlineFiles = [
@@ -20,6 +20,7 @@ self.addEventListener('install', function (e) {
     caches.open(appCache).then(function (cache) {
       cache.addAll(offlineFiles).then(function () {
         console.log('[SW] cashe added');
+        skipWaiting();
       })
     })
   );
@@ -63,7 +64,11 @@ self.addEventListener('fetch', function (e) {
         caches.open(appCache).then(function (cache) {
           cache.put(e.request, response).then(function () {
             console.log('[SW] new version of ' + e.request.url);
-            clients.postMessage('update');
+            clients.matchAll().then(function (client) {
+              for (let client of clients) {
+                client.postMessage('update');
+              };
+            })
           })
         })
       };

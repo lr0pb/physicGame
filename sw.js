@@ -44,8 +44,6 @@ self.addEventListener('fetch', function (e) {
     (async function () {
       let cacheResponse = await caches.match(e.request);
       if (cacheResponse) {
-        console.log(cacheResponse);
-        console.log(cacheResponse.headers);
         cacheResponse.headers.set('cache-control','max-age=1209600');
         return cacheResponse;
       };

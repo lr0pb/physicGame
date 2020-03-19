@@ -288,9 +288,7 @@ function positionPlacement() {
 
 function stop() {
   console.log('stop');
-  clearInterval(beforeIteration);
   clearInterval(iteration);
-  clearInterval(afterIteration);
 };
 
 function end() {

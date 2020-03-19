@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 1;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -41,10 +41,7 @@ self.addEventListener('fetch', function (e) {
   e.respondWith(
     (async function () {
       let cacheResponse = await caches.match(e.request);
-      if (cacheResponse) {
-        //cacheResponse.headers.set('cache-control','max-age=1209600');
-        return cacheResponse;
-      };
+      if (cacheResponse) return cacheResponse;
       return addCache(e.request);
     })()
   );
@@ -57,10 +54,6 @@ self.addEventListener('fetch', function (e) {
       };
     })()
   );
-});
-
-self.addEventListener('message', function (e) {
-  console.log('[SW] ' + e.data);
 });
 
 async function addCache(request) {
@@ -84,7 +77,6 @@ async function updateCache(request, response) {
   })
   const allClients = await clients.matchAll();
   for (let client of allClients) {
-    console.log(client);
     client.postMessage('update');
   };
 };

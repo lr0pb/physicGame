@@ -3,6 +3,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {
         hide(document.querySelector('#startBlock'));
+        document.querySelector('#controlsBlock').classList.contains('show') ?
         hideBlock(document.querySelector('#controlsBlock'));
         show(document.querySelector('#updateBlock'));
       };

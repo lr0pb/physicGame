@@ -1,4 +1,9 @@
-serviceWorker.postMessage('Test msg');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').then(function (registration) {
+    console.log(registration);
+    console.log(navigator.serviceWorker);
+  })
+};
 
 window.addEventListener('message', function (e) {
   console.log(e.origin);

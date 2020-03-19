@@ -1,4 +1,4 @@
-const appVersion = 1;
+const appVersion = 2;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -11,7 +11,7 @@ const appVersion = 1;
         './launcher.svg',
         './electro.svg',
         './magnetic.svg',
-        'https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic'
+        './favicon.svg'
       ];
 
 self.addEventListener('install', function (e) {

@@ -7,7 +7,6 @@ if ('serviceWorker' in navigator) {
         show(document.querySelector('#updateBlock'));
       };
     });
-    document.querySelector('#font').setAttribute('href','https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap');
   })
 };
 

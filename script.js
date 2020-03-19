@@ -7,6 +7,7 @@ if ('serviceWorker' in navigator) {
         show(document.querySelector('#updateBlock'));
       };
     });
+    document.querySelector('#font').setAttribute('href','https://fonts.googleapis.com/css?family=Montserrat:600,700,800');
   })
 };
 
@@ -25,9 +26,7 @@ let ufo = {
     distance = 0;
     dx = 0;
     dy = 0;
-let beforeIteration;
 let iteration;
-let afterIteration;
 
 window.addEventListener('load', normalize);
 window.addEventListener('resize', normalize);
@@ -182,8 +181,6 @@ function start() {
   canvas.beginPath();
   canvas.moveTo(0, (80 - phiz.H) * fontSize);
   phiz.currentH = phiz.H;
-  beforePositionCalculator();
-  beforeIteration = setInterval(beforePositionCalculator, 100);
 
   if (!phiz.EField && !phiz.MField) {
     NPositionCalculator();
@@ -204,8 +201,6 @@ function start() {
     EMPositionCalculator();
     iteration = setInterval(EMPositionCalculator, 100);
   };
-
-  afterIteration = setInterval(afterPositionCalculator, 100);
 };
 
 function beforePositionCalculator() {
@@ -219,8 +214,10 @@ function afterPositionCalculator() {
 };
 
 function NPositionCalculator() {
+  beforePositionCalculator();
   phiz.currentS = phiz.V0 * (phiz.currentT / 1000);
   phiz.currentH = phiz.H + Math.tan(phiz.alpha * Math.PI / 180) * phiz.currentS;
+  afterPositionCalculator();
 };
 
 function EStart() {
@@ -232,8 +229,10 @@ function EStart() {
   phiz.fullS = phiz.Vx * phiz.fullT / 1000;
 };
 function EPositionCalculator() {
+  beforePositionCalculator();
   phiz.currentH = phiz.H + (phiz.Vy * (phiz.currentT / 1000) - phiz.a * Math.pow(phiz.currentT / 1000, 2) / 2);
   phiz.currentS = phiz.Vx * phiz.currentT / 1000;
+  afterPositionCalculator();
 
   if (phiz.currentT >= phiz.fullT) {
     end();
@@ -249,8 +248,10 @@ function MStart() {
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
 };
 function MPositionCalculator() {
+  beforePositionCalculator();
   phiz.currentH = phiz.H - phiz.Cy + phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
   phiz.currentS = phiz.Cx + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) - (phiz.alpha * Math.PI / 180) );
+  afterPositionCalculator();
 
   if (phiz.currentT >= phiz.fullT) {
     end();
@@ -269,10 +270,12 @@ function EMStart() {
   phiz.fullT = (2 * Math.PI / phiz.omega) * 1000;
 };
 function EMPositionCalculator() {
+  beforePositionCalculator();
   phiz.currentH = phiz.H + ( phiz.Cy + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
   phiz.currentS = phiz.Cx - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
 
   if (phiz.currentH <= 0) phiz.currentH = 0;
+  afterPositionCalculator();
 };
 
 function positionPlacement() {

@@ -214,7 +214,7 @@ canvas, #field, #electro, #magnetic {
   font-weight: 800;
 }
 
-#startBlock, #winBlock, #failBlock, #finishBlock {
+#startBlock, #winBlock, #failBlock, #finishBlock, #updateBlock {
   width: 50rem; height: 20rem;
   top: 50%;
   display: flex;

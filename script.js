@@ -1,12 +1,12 @@
 if ('serviceWorker' in navigator) {
-  const SW = navigator.serviceWorker;
-  SW.register('./sw.js');
-  SW.ready.then(function () {
-    SW.addEventListener('message', function (e) {
-      console.log(e.data);
+  navigator.serviceWorker.register('./sw.js').then(function () {
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      if (e.data == 'update') {
+        hide(document.querySelector('#startBlock'));
+        hideBlock(document.querySelector('#controlsBlock'));
+        show(document.querySelector('#updateBlock'));
+      };
     });
-    console.log(SW);
-    SW.postMessage('msg')
   })
 };
 
@@ -364,9 +364,11 @@ document.querySelector('#B').textContent = 0;
 
 document.querySelector('#win').addEventListener('click', next);
 document.querySelector('#fail').addEventListener('click', reentry);
-document.querySelector('#reload').addEventListener('click', function () {
-  document.location.reload();
-});
+for (let button of document.querySelectorAll('.reload')) {
+  button.addEventListener('click', function () {
+    document.location.reload();
+  });
+};
 
 function next() {
   hide(document.querySelector('#winBlock'));

@@ -1,18 +1,13 @@
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').then(function (registration) {
+    console.log(this);
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      console.log(e.data);
+    });
     console.log(registration);
     console.log(navigator.serviceWorker);
   })
 };
-
-window.addEventListener('message', function (e) {
-  console.log(e.origin);
-  console.log(e.data);
-  if (e.origin == window.origin && e.data == 'update') {
-    console.log('[Main] update');
-  };
-});
-console.log('its work');
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

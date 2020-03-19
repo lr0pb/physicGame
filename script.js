@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
     let font = document.createElement('link');
     font.setAttribute('rel','stylesheet');
     font.setAttribute('href','https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic');
-    document.head.append(font);
+    document.head.prepend(font);
   })
 };
 

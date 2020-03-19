@@ -1,4 +1,4 @@
-const appVersion = 5;
+const appVersion = 6;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -61,7 +61,7 @@ self.addEventListener('fetch', function (e) {
 
 async function addCache(request) {
   console.log('[SW] add cache ' + request.url);
-  let response = null;
+  let fetchResponse = null;
   fetch(request).then(function (response) {
     if (response.ok) {
       caches.open(appCache).then(function (cache) {
@@ -70,8 +70,9 @@ async function addCache(request) {
     } else {
       response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
     };
+    fetchResponse = response;
   })
-  return response;
+  return fetchResponse;
 };
 
 async function updateCache(request, response) {

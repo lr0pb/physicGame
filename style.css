@@ -85,6 +85,9 @@ button {
   cursor: pointer;
   margin: 0 1.2rem;
 }
+#fire {
+  margin-bottom: 2rem;
+}
 label {
   background-color: transparent;
   border: 0.4rem solid transparent;

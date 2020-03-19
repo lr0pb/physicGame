@@ -1,4 +1,4 @@
-const appVersion = 4;
+const appVersion = 5;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -39,17 +39,19 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
   console.log('[SW] fetch ' + e.request.url);
+  let cacheResponse = null;
+      fetchResponse = null;
   e.respondWith(
     (async function () {
-      let cacheResponse = await caches.match(e.request);
+      cacheResponse = await caches.match(e.request);
       if (cacheResponse) return cacheResponse;
-      return addCache(e.request);
+      fetchResponse = await addCache(e.request);
+      return fetchResponse;
     })()
   );
   e.waitUntil(
     (async function () {
-      const fetchResponse = await fetch(e.request);
-      const cacheResponse = await caches.match(e.request);
+      if (!fetchResponse) fetchResponse = await fetch(e.request);
       if (fetchResponse.headers.get('server') == serverName && fetchResponse.headers.get('last-modified') != cacheResponse.headers.get('last-modified')) {
         updateCache(e.request, fetchResponse);
       };
@@ -59,6 +61,7 @@ self.addEventListener('fetch', function (e) {
 
 async function addCache(request) {
   console.log('[SW] add cache ' + request.url);
+  let response = null;
   fetch(request).then(function (response) {
     if (response.ok) {
       caches.open(appCache).then(function (cache) {
@@ -67,8 +70,8 @@ async function addCache(request) {
     } else {
       response = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
     };
-    return response;
   })
+  return response;
 };
 
 async function updateCache(request, response) {

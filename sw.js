@@ -1,4 +1,4 @@
-const appVersion = 8;
+const appVersion = 9;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -52,7 +52,7 @@ self.addEventListener('fetch', function (e) {
   e.waitUntil(
     (async function () {
       if (!fetchResponse) fetchResponse = await fetch(e.request);
-      console.log('[SW] Cache time ' + cacheResponse.headers.get('last-modified')) + ' for ' + e.request.url;
+      console.log('[SW] Cache time ' + cacheResponse.headers.get('last-modified') + ' for ' + e.request.url);
       console.log('[SW] Fetch time ' + fetchResponse.headers.get('last-modified'));
       if (fetchResponse.headers.get('server') == serverName && fetchResponse.headers.get('last-modified') != cacheResponse.headers.get('last-modified')) {
         updateCache(e.request, fetchResponse);

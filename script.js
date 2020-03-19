@@ -1,11 +1,12 @@
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').then(function (registration) {
-    console.log(this);
-    navigator.serviceWorker.addEventListener('message', function (e) {
+  const SW = navigator.serviceWorker;
+  SW.register('./sw.js');
+  SW.ready.then(function () {
+    SW.addEventListener('message', function (e) {
       console.log(e.data);
     });
-    console.log(registration);
-    console.log(navigator.serviceWorker);
+    console.log(SW);
+    SW.postMessage('msg')
   })
 };
 

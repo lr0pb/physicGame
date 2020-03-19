@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>physicGame</title>
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) const serviceWorker = navigator.serviceWorker.register('./sw.js');
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>

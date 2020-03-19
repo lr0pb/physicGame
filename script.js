@@ -1,6 +1,5 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
-};
+serviceWorker.postMessage('Test msg');
+
 window.addEventListener('message', function (e) {
   console.log(e.origin);
   console.log(e.data);

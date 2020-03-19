@@ -1,4 +1,4 @@
-const appVersion = 1;
+const appVersion = 2;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -57,6 +57,10 @@ self.addEventListener('fetch', function (e) {
       };
     })()
   );
+});
+
+self.addEventListener('message', function (e) {
+  console.log('[SW] ' + e.data);
 });
 
 async function addCache(request) {

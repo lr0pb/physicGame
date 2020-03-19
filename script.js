@@ -2,9 +2,8 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').then(function () {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {
-        hide(document.querySelector('#startBlock'));
-        document.querySelector('#controlsBlock').classList.contains('show') ?
-        hideBlock(document.querySelector('#controlsBlock'));
+        document.querySelector('#startBlock').style.display = 'none';
+        document.querySelector('#controlsBlock').style.display = 'none';
         show(document.querySelector('#updateBlock'));
       };
     });

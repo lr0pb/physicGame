@@ -1,4 +1,4 @@
-const appVersion = 2;
+const appVersion = 3;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -11,7 +11,8 @@ const appVersion = 2;
         './launcher.svg',
         './electro.svg',
         './magnetic.svg',
-        './favicon.svg'
+        './favicon.svg',
+        'https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic'
       ];
 
 self.addEventListener('install', function (e) {
@@ -37,7 +38,7 @@ self.addEventListener('activate', function (e) {
 });
 
 self.addEventListener('fetch', function (e) {
-  console.log('[SW] fetch');
+  console.log('[SW] fetch ' + e.request.url);
   e.respondWith(
     (async function () {
       let cacheResponse = await caches.match(e.request);
@@ -57,7 +58,7 @@ self.addEventListener('fetch', function (e) {
 });
 
 async function addCache(request) {
-  console.log('[SW] add new cache');
+  console.log('[SW] add cache ' + request.url);
   fetch(request).then(function (response) {
     if (response.ok) {
       caches.open(appCache).then(function (cache) {
@@ -71,7 +72,7 @@ async function addCache(request) {
 };
 
 async function updateCache(request, response) {
-  console.log('[SW] update cache');
+  console.log('[SW] update cache ' + request.url);
   caches.open(appCache).then(function (cache) {
     cache.put(request, response);
   })

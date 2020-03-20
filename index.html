@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk" dir="ltr" data-theme="dark">
+<html lang="ru" dir="ltr" data-theme="dark">
   <head>
     <title>physicGame</title>
     <meta charset="utf-8">
@@ -26,6 +26,18 @@
         <div id="ufo" class="icon"></div>
       </div>
     </main>
+    <div id="startBlock" class="popup">
+      <div class="coverBox">
+        <div id="light"></div>
+        <div id="cover"></div>
+      </div>
+      <h1>Попади в тарелку!</h1>
+      <p class="startText">
+        Расчитай начальные условия H, V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох для запуска электрического заряда,
+        чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты.
+      </p>
+      <button id="start">Начать</button>
+    </div>
     <div id="controlsBlock" class="popup">
       <div class="columnContent projectileConditions">
         <h2>Снаряд:</h2>
@@ -34,7 +46,7 @@
         <label>m = <span class="digit" id="m"></span> кг</label>
       </div>
       <div class="columnContent maxValues">
-        <h2>Обмеження:</h2>
+        <h2>Ограничения:</h2>
         <label>V<sub>0</sub> = <span class="digit">60</span> м/с</label>
         <br>
         <label>H = <span class="digit">60</span> м</label>
@@ -48,7 +60,7 @@
         <label>B = <span class="digit" id="B"></span> Тесла</label>
       </div>
       <div class="columnContent ufoConditions">
-        <h2>Тарілка:</h2>
+        <h2>Тарелка:</h2>
         <label>x = <span class="digit" id="ufoX"></span> м</label>
         <br>
         <label>y = <span class="digit" id="ufoY"></span> м</label>
@@ -68,33 +80,45 @@
         <input type="text" name="angle" placeholder="45" pattern="\d*">
         <label>°</label>
       </div>
-      <button id="fire">Запустити снаряд</button>
+      <button id="fire">Запустить снаряд</button>
     </div>
-    <div id="startBlock" class="popup">
-      <h2>Збий тарілку!</h2>
-      <button id="start">Почати</button>
+    <div id="description" class="popup">
+      <p id="NField" class="descriptionText">
+        Никакие поля не оказывают воздействие на снаряд
+      </p>
+      <p id="EField" class="descriptionText">
+        Однородное электростатическое поле, силовые линии которого направлены вниз
+      </p>
+      <p id="MField" class="descriptionText">
+        Однородное магнитостатическое поле, линии индукции которого направлены от наблюдателя
+      </p>
+      <p id="EMField" class="descriptionText">
+        Взаимноперпендикулярные электростатическое и магнитостатическое поля
+      </p>
     </div>
     <div id="winBlock" class="popup">
-      <h2>Задача вирішена!</h2>
-      <button id="win">Далі</button>
+      <h2>Задача решена!</h2>
+      <button id="win">Дальше</button>
     </div>
     <div id="failBlock" class="popup">
-      <h2>Розв'язано не вірно!</h2>
+      <h2>Решено не верно!</h2>
       <button id="fail">Заново</button>
     </div>
     <div id="finishBlock" class="popup">
-      <h2>Все розв'язано правильно!</h2>
-      <button class="reload">Ще раз</button>
+      <h2>Всё решено правильно!</h2>
+      <button class="reload">Ещё раз</button>
     </div>
     <div id="updateBlock" class="popup">
-      <h2>З'явилася нова версія!</h2>
-      <button class="reload">Оновитися</button>
+      <h2>Появилась новая версия!</h2>
+      <button class="reload">Обновиться</button>
     </div>
     <div>
-      Work by <a href="https://github.com/lr0pb" title="LR0PB" target="_blank">LR0PB</a> —
-      Credits: icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware" target="_blank">Good Ware</a>
-      and <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank">Freepik</a>
-      from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank"> www.flaticon.com</a>
+      Work by <a href="https://github.com/lr0pb" title="LR0PB" target="_blank" rel="noreferrer">LR0PB</a> —
+      Credits: icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware" target="_blank" rel="noreferrer">Good Ware</a>,
+      <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp" target="_blank" rel="noreferrer">Eucalyp</a>,
+      <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons" target="_blank" rel="noreferrer">Smashicons</a> and
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank" rel="noreferrer">Freepik</a>
+      from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noreferrer"> www.flaticon.com</a>
     </div>
   </body>
 </html>

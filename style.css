@@ -58,8 +58,9 @@ body, button, input, a {
 body, h1, h2, h3, h4, h5, button, label, input, p, ul, li, a {margin: 0;}
 
 h1 {
-  font-size: 4.5em;
+  font-size: 2.6em;
   font-weight: 800;
+  padding: 0 0 1rem 0;
 }
 h2 {
   font-size: 2.5em;
@@ -165,7 +166,7 @@ canvas, #field, #electro, #magnetic {
   background-repeat: no-repeat;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: border 0.4s 0.1s;
+  transition: border 0.4s 0.1s, left 0.5s, top 0.5s;
 }
 #launcher {
   width: 3rem; height: 6rem;
@@ -188,14 +189,14 @@ canvas, #field, #electro, #magnetic {
   border-radius: 1.5rem;
   background-color: var(--dark-bg);
   transform-origin: left;
+  opacity: 0;
+  display: none;
 }
 #controlsBlock {
   width: 80rem; height: 33.5rem;
   bottom: 1.5rem;
   transform: translate(-50%, 0);
   column-count: 3;
-  opacity: 0;
-  display: none;
 }
 .columnContent {
   padding: 3rem;
@@ -220,12 +221,58 @@ canvas, #field, #electro, #magnetic {
 #startBlock, #winBlock, #failBlock, #finishBlock, #updateBlock {
   width: 50rem; height: 20rem;
   top: 50%;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  opacity: 0;
+}
+#startBlock {
+  width: 80rem; height: 50rem;
+}
+.startText {
+  text-align: center;
+  padding: 1rem 5rem 2rem 5rem;
+}
+.coverBox {
+  width: 45rem; height: 20rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#cover {
+  width: inherit; height: inherit;
+  position: absolute;
+  background-image: url(cover.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#light {
+  width: 40rem; height: 15rem;
+  margin-top: 4rem;
+  position: absolute;
+  background-image:
+    -webkit-linear-gradient(10deg, #4060bf, transparent 55%),
+    -webkit-linear-gradient(20deg, blue, transparent 65%),
+    -webkit-linear-gradient(210deg, #E8651B, transparent 80%),
+    -webkit-linear-gradient(155deg, #C82626, transparent 70%),
+    -webkit-linear-gradient(90deg, blue, transparent 90%);
+  border-radius: 5rem;
+  filter: blur(4rem);
+}
+
+#description {
+  width: 80rem; height: 12rem;
+  top: 1.5rem;
+  transform: translate(-50%, 0);
+  align-items: center;
+  justify-content: center;
+}
+.descriptionText {
   display: none;
+  font-size: 2em;
+  text-align: center;
+  padding: 0 4rem;
 }
 
 .showBlock {

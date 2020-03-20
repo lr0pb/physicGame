@@ -348,13 +348,19 @@ show(document.querySelector('#startBlock'));
 document.querySelector('#start').addEventListener('click', () => {
   hide(document.querySelector('#startBlock'));
   setUfo();
-  showBlock(document.querySelector('#controlsBlock'));
+  document.querySelector('#NField').style.display = 'block';
+  showBlock(document.querySelector('#description'), 'flex');
+  showBlock(document.querySelector('#controlsBlock'), 'block');
 });
 
 fire.addEventListener('click', startFlight);
 
 function startFlight() {
-  hideBlock(document.querySelector('#controlsBlock'));
+  for (let desc of document.querySelectorAll('.descriptionText')) {
+    desc.removeAttribute('style');
+  };
+  hideBlock(document.querySelector('#description'), 'flex');
+  hideBlock(document.querySelector('#controlsBlock'), 'block');
   start();
 };
 
@@ -382,6 +388,8 @@ function next() {
     phiz.EField = true;
     document.querySelector('#E').textContent = phiz.E;
     document.querySelector('#electro').style.opacity = '1';
+    document.querySelector('#EMField').style.display = 'block';
+    showBlock(document.querySelector('#description'), 'flex');
   };
   if (phiz.EField && !phiz.MField) {
     phiz.EField = false;
@@ -390,11 +398,15 @@ function next() {
     document.querySelector('#B').textContent = phiz.B;
     document.querySelector('#electro').style.opacity = '0';
     document.querySelector('#magnetic').style.opacity = '1';
+    document.querySelector('#MField').style.display = 'block';
+    showBlock(document.querySelector('#description'), 'flex');
   };
   if (!phiz.EField && !phiz.MField) {
     phiz.EField = true;
     document.querySelector('#E').textContent = phiz.E;
     document.querySelector('#electro').style.opacity = '1';
+    document.querySelector('#EField').style.display = 'block';
+    showBlock(document.querySelector('#description'), 'flex');
   };
 
   setUfo();
@@ -413,23 +425,23 @@ function backToStart() {
   projectile.style.top = 80 - phiz.H + 'rem';
   projectile.style.left = '0';
   ufo.model.style.border = 'none';
-  showBlock(document.querySelector('#controlsBlock'));
+  showBlock(document.querySelector('#controlsBlock'), 'block');
 };
 
-function showBlock(block) {
+function showBlock(block, display) {
   block.classList.contains('hideBlock') ?
   block.classList.replace('hideBlock','showBlock') : block.classList.add('showBlock');
 
-  block.style.display = 'block';
+  block.style.display = display;
   setTimeout( () => {
     block.classList.add('showBlock');
   }, 40 );
 };
-function hideBlock(block) {
+function hideBlock(block, display) {
   block.classList.contains('showBlock') ?
   block.classList.replace('showBlock','hideBlock') : block.classList.add('hideBlock');
 
-  block.style.display = 'block';
+  block.style.display = display;
   setTimeout( () => {
     block.classList.add('hideBlock');
   }, 40 );

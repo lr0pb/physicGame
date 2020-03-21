@@ -309,10 +309,13 @@ span.this {
   main, footer, #start, #description, #controlsBlock, #winBlock, #failBlock, #finishBlock {
     display: none;
   }
-  #startBlock, #updateBlock {
+  #startBlock {
     width: 100vw; height: 100vh;
     display: flex !important;
     opacity: 1 !important;
+  }
+  #updateBlock {
+    width: 100vw; height: 100vh;
   }
   .coverBox, #cover {
     width: 100vw; height: 45vw;

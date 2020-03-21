@@ -1,4 +1,4 @@
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && 'caches' in window) {
   navigator.serviceWorker.register('./sw.js').then(function () {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {
@@ -10,6 +10,49 @@ if ('serviceWorker' in navigator) {
     document.querySelector('#font').setAttribute('href','https://fonts.googleapis.com/css?family=Montserrat:600,700,800');
   })
 };
+
+let lang;
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (localStorage.getItem('lang')) {
+    lang = localStorage.getItem('lang');
+    document.querySelector('.' + lang).classList.add('this');
+    for (let text of document.querySelectorAll('[data-text]')) {
+      text.innerHTML = text.getAttribute('data-' + lang);
+    };
+  } else {
+    lang = navigator.language.match(/\w\w/).join('');
+    if (lang == 'ua') {
+      document.querySelector('.ua').classList.add('this');
+      for (let text of document.querySelectorAll('[data-text]')) {
+        text.innerHTML = text.dataset.ua;
+      };
+    } else {
+      lang = 'ru';
+      document.querySelector('.ru').classList.add('this');
+    };
+    localStorage.setItem('lang', lang);
+  };
+});
+
+document.querySelector('.ru').addEventListener('click', function () {
+  lang = 'ru';
+  localStorage.setItem('lang', lang);
+  document.querySelector('.ua').classList.remove('this');
+  document.querySelector('.ru').classList.add('this');
+  for (let text of document.querySelectorAll('[data-text]')) {
+    text.innerHTML = text.dataset.ru;
+  };
+});
+document.querySelector('.ua').addEventListener('click', function () {
+  lang = 'ua';
+  localStorage.setItem('lang', lang);
+  document.querySelector('.ru').classList.remove('this');
+  document.querySelector('.ua').classList.add('this');
+  for (let text of document.querySelectorAll('[data-text]')) {
+    text.innerHTML = text.dataset.ua;
+  };
+});
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

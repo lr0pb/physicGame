@@ -31,12 +31,18 @@
         <div id="light"></div>
         <div id="cover"></div>
       </div>
-      <h1>Попади в тарелку!</h1>
-      <p class="startText">
+      <h1 data-text data-ru="Попади в тарелку!" data-ua="Влуч у тарілку!">Попади в тарелку!</h1>
+      <p class="startText" data-text
+         data-ru="Расчитай начальные условия H, V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох для запуска электрического заряда,
+                  чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты."
+         data-ua="Розрахуй початкові умови H, V<sub>0</sub> та кут α між напрямком V<sub>0</sub> та віссю Ох для запуска електричного заряду,
+                  щоб він влучив у тарілку, при впливі на нього різноманітних полів. Запусти снаряд та перевір свої розрахунки.">
+        <!--Найди уравнения зависимости координат снаряда от времени и определи из них начальные условия запуска снаряда Н,
+        V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох. Запусти снаряд и проверь свои расчеты.-->
         Расчитай начальные условия H, V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох для запуска электрического заряда,
         чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты.
       </p>
-      <button id="start">Начать</button>
+      <button id="start" data-text data-ru="Начать" data-ua="Почати">Начать</button>
     </div>
     <div id="controlsBlock" class="popup">
       <div class="columnContent projectileConditions">
@@ -46,7 +52,7 @@
         <label>m = <span class="digit" id="m"></span> кг</label>
       </div>
       <div class="columnContent maxValues">
-        <h2>Ограничения:</h2>
+        <h2 data-text data-ru="Ограничения:" data-ua="Обмеження:">Ограничения:</h2>
         <label>V<sub>0</sub> = <span class="digit">60</span> м/с</label>
         <br>
         <label>H = <span class="digit">60</span> м</label>
@@ -60,7 +66,7 @@
         <label>B = <span class="digit" id="B"></span> Тесла</label>
       </div>
       <div class="columnContent ufoConditions">
-        <h2>Тарелка:</h2>
+        <h2 data-text data-ru="Тарелка:" data-ua="Тарілка:">Тарелка:</h2>
         <label>x = <span class="digit" id="ufoX"></span> м</label>
         <br>
         <label>y = <span class="digit" id="ufoY"></span> м</label>
@@ -80,45 +86,54 @@
         <input type="text" name="angle" placeholder="45" pattern="\d*">
         <label>°</label>
       </div>
-      <button id="fire">Запустить снаряд</button>
+      <button id="fire" data-text data-ru="Запустить снаряд" data-ua="Запустити снаряд">Запустить снаряд</button>
     </div>
     <div id="description" class="popup">
-      <p id="NField" class="descriptionText">
+      <p id="NField" class="descriptionText" data-text
+        data-ru="Никакие поля не оказывают воздействие на снаряд"
+        data-ua="Жодне з полів не впливає на снаряд">
         Никакие поля не оказывают воздействие на снаряд
       </p>
-      <p id="EField" class="descriptionText">
+      <p id="EField" class="descriptionText" data-text
+        data-ru="Однородное электростатическое поле, силовые линии которого направлены вниз"
+        data-ua="Однорідне електростатичне поле, силові лінії якого напрямлені вниз">
         Однородное электростатическое поле, силовые линии которого направлены вниз
       </p>
-      <p id="MField" class="descriptionText">
+      <p id="MField" class="descriptionText" data-text
+        data-ru="Однородное магнитостатическое поле, линии индукции которого направлены от наблюдателя"
+        data-ua="Однорідне магнітостатичне поле, лінії індукції якого напрямлені від спостерігача">
         Однородное магнитостатическое поле, линии индукции которого направлены от наблюдателя
       </p>
-      <p id="EMField" class="descriptionText">
+      <p id="EMField" class="descriptionText" data-text
+        data-ru="Взаимноперпендикулярные электростатическое и магнитостатическое поля"
+        data-ua="Взаємноперпендикулярні електростатичне та магнітостатичне поля">
         Взаимноперпендикулярные электростатическое и магнитостатическое поля
       </p>
     </div>
     <div id="winBlock" class="popup">
-      <h2>Задача решена!</h2>
-      <button id="win">Дальше</button>
+      <h2 data-text data-ru="Задача решена!" data-ua="Задача вирішена!">Задача решена!</h2>
+      <button id="win" data-text data-ru="Дальше" data-ua="Далі">Дальше</button>
     </div>
     <div id="failBlock" class="popup">
-      <h2>Решено не верно!</h2>
-      <button id="fail">Заново</button>
+      <h2 data-text data-ru="Решено не верно!" data-ua="Розв'язано не вірно!">Решено не верно!</h2>
+      <button id="fail" data-text data-ru="Заново" data-ua="Заново">Заново</button>
     </div>
     <div id="finishBlock" class="popup">
-      <h2>Всё решено правильно!</h2>
-      <button class="reload">Ещё раз</button>
+      <h2 data-text data-ru="Всё решено правильно!" data-ua="Все розв'язано правильно!">Всё решено правильно!</h2>
+      <button class="reload" data-text data-ru="Ещё раз" data-ua="Ще раз">Ещё раз</button>
     </div>
     <div id="updateBlock" class="popup">
-      <h2>Появилась новая версия!</h2>
-      <button class="reload">Обновиться</button>
+      <h2 data-text data-ru="Появилась новая версия!" data-ua="З'явилася нова версія!">Появилась новая версия!</h2>
+      <button class="reload" data-text data-ru="Обновиться" data-ua="Оновитись">Обновиться</button>
     </div>
     <div>
-      Work by <a href="https://github.com/lr0pb" title="LR0PB" target="_blank" rel="noreferrer">LR0PB</a> —
+      Work by <a href="https://github.com/lr0pb" title="LR0PB" target="_blank" rel="noreferrer">LR0PB</a> <span class="space">—</span>
       Credits: icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware" target="_blank" rel="noreferrer">Good Ware</a>,
       <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp" target="_blank" rel="noreferrer">Eucalyp</a>,
       <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons" target="_blank" rel="noreferrer">Smashicons</a> and
       <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank" rel="noreferrer">Freepik</a>
-      from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noreferrer"> www.flaticon.com</a>
+      from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noreferrer"> www.flaticon.com</a> <span class="space">—</span>
+      Choose language: <span class="space lang ru">RU</span><span class="space lang ua">UA</span>
     </div>
   </body>
 </html>

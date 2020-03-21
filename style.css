@@ -249,7 +249,7 @@ canvas, #field, #electro, #magnetic {
 }
 #light {
   width: 40rem; height: 15rem;
-  margin-top: 4rem;
+  margin-top: 3rem;
   position: absolute;
   background-image:
     -webkit-linear-gradient(10deg, #4060bf, transparent 55%),
@@ -272,7 +272,19 @@ canvas, #field, #electro, #magnetic {
   display: none;
   font-size: 2em;
   text-align: center;
-  padding: 0 4rem;
+  padding: 0 6rem;
+}
+
+span.space {
+  margin: 0 0.5rem;
+}
+span.lang {
+  font-size: 1.4em;
+  font-weight: 600;
+  cursor: pointer;
+}
+span.this {
+  font-weight: 800;
 }
 
 .showBlock {

@@ -299,20 +299,28 @@ span.this {
   background-color: var(--light-bg);
 }
 
-#rotate {
+#rotate, #smallDevice {
   display: none;
+}
+.warning {
+  width: 75vw; max-width: 45rem;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1.5rem;
+  background-color: var(--red);
 }
 @media screen and (orientation: portrait) {
   html {
     font-size: 10px;
   }
-  main, footer, #start, #description, .popup {
+  main, footer, #start, #description, .popup:not(#startBlock):not(#updateBlock) {
     display: none !important;
   }
   #startBlock {
     width: 100vw; height: 100vh;
     display: flex !important;
     opacity: 1 !important;
+    transform: scale(1) translate(-50%, -50%) !important;
   }
   #updateBlock {
     width: 100vw; height: 100vh;
@@ -321,18 +329,29 @@ span.this {
     width: 100vw; height: 45vw;
   }
   #light {
-    width: 100vw; height: 40vw;
+    width: 85vw; height: 40vw;
   }
   .startText {
-    padding: 1rem 1.5rem 2rem 1.5rem;
+    padding: 1rem 2.5rem 2rem 2.5rem;
+    max-width: 55rem;
   }
   #rotate {
     display: block;
-    width: 85vw; max-width: 45rem;
-    padding: 2rem 0;
-    text-align: center;
-    border-radius: 1.5rem;
-    background-color: var(--red);
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 699px) {
+  html {
+    font-size: 10px;
+  }
+  main, footer, #start, #description, .popup {
+    display: none !important;
+  }
+  #smallDevice {
+    display: block;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 

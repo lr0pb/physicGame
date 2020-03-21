@@ -86,6 +86,11 @@ function normalize() {
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
   canvas.strokeStyle = 'hsl(225, 50%, 85%)';
+  if (window.innerHeight < canvasElement.height * 1.15) {
+    document.querySelector('#controlsBlock').style.top = canvasElement.height / fontSize - 15 + 'rem';
+  } else {
+    document.querySelector('#controlsBlock').style.top = 'auto';
+  };
 };
 
 document.addEventListener('DOMContentLoaded', loadData);

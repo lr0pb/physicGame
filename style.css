@@ -306,8 +306,8 @@ span.this {
   html {
     font-size: 10px;
   }
-  main, footer, #start, #description, #controlsBlock, #winBlock, #failBlock, #finishBlock {
-    display: none;
+  main, footer, #start, #description, .popup {
+    display: none !important;
   }
   #startBlock {
     width: 100vw; height: 100vh;

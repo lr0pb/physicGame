@@ -67,6 +67,10 @@ h2 {
   font-weight: 800;
   padding: 0 2rem 1rem 1rem;
 }
+h3 {
+  font-size: 1.8em;
+  font-weight: 700;
+}
 p {
   font-size: 1.4em;
   font-weight: 600;
@@ -276,15 +280,55 @@ canvas, #field, #electro, #magnetic {
 }
 
 span.space {
-  margin: 0 0.5rem;
+  margin: 0 0.3rem;
 }
 span.lang {
   font-size: 1.4em;
   font-weight: 600;
   cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  background-color: var(--dark-bg);
+  border: 0.1rem solid var(--shadow);
+  transition: 0.3s;
+}
+span.lang:hover, span.lang:focus {
+  background-color: var(--shadow);
 }
 span.this {
   font-weight: 800;
+  background-color: var(--light-bg);
+}
+
+#rotate {
+  display: none;
+}
+@media screen and (orientation: portrait) {
+  html {
+    font-size: 10px;
+  }
+  main, footer, #start {
+    display: none;
+  }
+  #startBlock {
+    width: 100vw; height: 100vh;
+  }
+  .coverBox, #cover {
+    width: 100vw; height: 45vw;
+  }
+  #light {
+    width: 100vw; height: 40vw;
+  }
+  .startText {
+    padding: 1rem 2rem 2rem 2rem;
+  }
+  #rotate {
+    display: block;
+    width: 85vw; max-width: 45rem;
+    padding: 2rem 0;
+    text-align: center;
+    border-radius: 2rem;
+    background-color: var(--red);
+  }
 }
 
 .showBlock {

@@ -306,11 +306,13 @@ span.this {
   html {
     font-size: 10px;
   }
-  main, footer, #start {
+  main, footer, #start, #description, #controlsBlock, #winBlock, #failBlock, #finishBlock {
     display: none;
   }
-  #startBlock {
+  #startBlock, #updateBlock {
     width: 100vw; height: 100vh;
+    display: flex !important;
+    opacity: 1 !important;
   }
   .coverBox, #cover {
     width: 100vw; height: 45vw;
@@ -319,14 +321,14 @@ span.this {
     width: 100vw; height: 40vw;
   }
   .startText {
-    padding: 1rem 2rem 2rem 2rem;
+    padding: 1rem 1.5rem 2rem 1.5rem;
   }
   #rotate {
     display: block;
     width: 85vw; max-width: 45rem;
     padding: 2rem 0;
     text-align: center;
-    border-radius: 2rem;
+    border-radius: 1.5rem;
     background-color: var(--red);
   }
 }

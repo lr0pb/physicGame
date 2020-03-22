@@ -327,9 +327,11 @@ span.this {
   }
   .coverBox, #cover {
     width: 100vw; height: 45vw;
+    max-width: 60rem; max-height: 27rem;
   }
   #light {
     width: 85vw; height: 40vw;
+    max-width: 50rem; max-height: 23rem;
   }
   .startText {
     padding: 1rem 2.5rem 2rem 2.5rem;

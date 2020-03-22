@@ -509,5 +509,6 @@ function hide(block) {
 
   setTimeout( () => {
     block.style.display = 'none';
+    block.classList.remove('hide');
   }, 500 );
 };

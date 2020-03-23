@@ -11,15 +11,6 @@ if ('serviceWorker' in navigator && 'caches' in window) {
   })
 };
 
-let installEvent;
-
-window.addEventListener('beforeinstallprompt', function (e) {
-  e.preventDefault();
-  installEvent = e;
-  console.log('istall app');
-  console.log(e);
-});
-
 let lang;
 
 document.addEventListener('DOMContentLoaded', function () {

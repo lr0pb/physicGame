@@ -279,6 +279,9 @@ canvas, #field, #electro, #magnetic {
   padding: 0 6rem;
 }
 
+footer {
+  margin: 0.7rem 0;
+}
 span.space {
   margin: 0 0.3rem;
 }
@@ -288,15 +291,15 @@ span.lang {
   cursor: pointer;
   padding: 0.2rem 0.5rem;
   background-color: var(--dark-bg);
-  border: 0.1rem solid var(--shadow);
+  border: 0.2rem solid var(--shadow);
   transition: 0.3s;
 }
 span.lang:hover, span.lang:focus {
-  background-color: var(--shadow);
+  background-color: var(--light-bg);
 }
 span.this {
   font-weight: 800;
-  background-color: var(--light-bg);
+  background-color: var(--shadow);
 }
 
 #rotate, #smallDevice {

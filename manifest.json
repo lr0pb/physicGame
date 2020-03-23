@@ -1,15 +1,15 @@
 {
   "name": "physicGame",
   "short_name": "physicGame",
-  "theme_color": "#171f36",
-  "background_color": "#171f36",
+  "theme_color": "#1d2130",
+  "background_color": "#1d2130",
   "display": "standalone",
   "orientation": "landscape",
   "start_url": "./",
   "icons": [{
     "src": "favicon.svg",
     "sizes": "512x512",
-    "type": "image/svg+xml",
+    "type": "image/png",
     "purpose": "any maskable"
   }]
 }

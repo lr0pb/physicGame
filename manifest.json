@@ -7,9 +7,16 @@
   "orientation": "landscape",
   "start_url": "./",
   "icons": [{
-    "src": "favicon.svg",
+    "src": "icon192x192.svg",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }, {
+    "src": "icon512x512.svg",
     "sizes": "512x512",
     "type": "image/png",
     "purpose": "any maskable"
-  }]
+  }],
+  "description": "Попади в тарелку! Расчитай начальные условия H, V0 и угол α между направлением V0 и осью Ох для запуска электрического заряда,
+  чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты."
 }

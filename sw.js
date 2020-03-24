@@ -1,4 +1,4 @@
-const appVersion = 3;
+const appVersion = 4;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -11,8 +11,9 @@ const appVersion = 3;
         './launcher.svg',
         './electro.svg',
         './magnetic.svg',
-        './favicon.svg',
         './cover.svg',
+        './icon192x192.svg',
+        './icon512x512.svg',
         './manifest.json',
         'https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic'
       ];

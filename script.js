@@ -91,8 +91,8 @@ function normalize() {
     console.log('new canvas size');
     canvasElement.width = 140 * fontSize;
     canvasElement.height = 80 * fontSize;
-    confettiCode = confettiRawCode.replace('${size}', 4 * fontSize);
-    confettiCode = confettiCode.replace('${size}', 4 * fontSize);
+    confettiCode = confettiRawCode.replace('${size}', 3 * fontSize);
+    confettiCode = confettiCode.replace('${size}', 3 * fontSize);
   };
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
@@ -502,24 +502,28 @@ function confettiFactory() {
         if (-step < (previousX - x) < step) x = previousX + step;
     let rotation = Math.round(Math.random() * 360);
         color = colors[Math.round(Math.random() * (colors.length - 1))];
-        delay = 0.15 * i;
-    new Confetti(x, rotation, color, delay);
+        depth = Math.round(Math.random() * 10) / 10;
+        delay = 0.1 * i;
+    new Confetti(x, rotation, color, depth, delay);
   };
 };
 
 const confettiContainer = document.querySelector('#confettiContainer');
 
 class Confetti {
-  constructor(x, rotation, color, delay) {
+  constructor(x, rotation, color, depth, delay) {
     this.x = x;
     this.rotation = rotation;
     this.color = color;
+    this.depth = depth;
     this.delay = delay;
 
     let confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = this.x + 'rem';
         confetti.style.transform = 'rotateZ(' + this.rotation + 'deg)';
+        confetti.style.opacity = this.depth;
+        if (this.depth < 0.3) confetti.style.filter = 'blur(3px)';
         confetti.style.animationDelay = this.delay + 's';
     let thisConfetti = confettiCode.replace('${color}', this.color);
     confetti.innerHTML = thisConfetti;

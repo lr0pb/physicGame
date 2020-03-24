@@ -102,7 +102,7 @@ function normalize() {
   } else {
     document.querySelector('#controlsBlock').style.top = 'auto';
   };
-  if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').style.display == 'none') {
+  if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').classList.contains('skip')) {
     show(document.querySelector('#startBlock'));
   };
 };
@@ -157,7 +157,7 @@ function change() {
   };
 };
 function blur() {
-  console.log(this.value);
+  this.value = this.value.replace(this.value.match(/[\D]/g), '');
   switch (this.name) {
     case 'velocity':
       if (!this.value) {this.placeholder = phiz.V0;}
@@ -561,5 +561,6 @@ function hide(block) {
   setTimeout( () => {
     block.style.display = 'none';
     block.classList.remove('hide');
+    if (block == document.querySelector('#startBlock')) block.classList.add('skip');
   }, 500 );
 };

@@ -65,7 +65,7 @@ h1 {
 h2 {
   font-size: 2.5em;
   font-weight: 800;
-  padding: 0 2rem 1rem 1rem;
+  padding: 0 1rem 1rem 1rem;
 }
 h3 {
   font-size: 1.8em;
@@ -229,7 +229,7 @@ canvas, #field, #electro, #magnetic {
   justify-content: center;
   align-items: center;
 }
-#startBlock {
+#startBlock, #finishBlock {
   width: 80rem; height: 50rem;
 }
 .startText {
@@ -243,7 +243,7 @@ canvas, #field, #electro, #magnetic {
   justify-content: center;
   align-items: center;
 }
-#cover {
+.cover {
   width: inherit; height: inherit;
   position: absolute;
   background-image: url(cover.svg);
@@ -251,7 +251,7 @@ canvas, #field, #electro, #magnetic {
   background-position: center;
   background-repeat: no-repeat;
 }
-#light {
+.light {
   width: 40rem; height: 15rem;
   margin-top: 3rem;
   position: absolute;
@@ -263,6 +263,45 @@ canvas, #field, #electro, #magnetic {
     -webkit-linear-gradient(90deg, blue, transparent 90%);
   border-radius: 5rem;
   filter: blur(4rem);
+}
+
+#finishBlock .coverBox {
+  margin-bottom: 4rem;
+}
+
+#finishBlock .coverBox .light {
+  background-size: 150%;
+  background-position: 0% 0%;
+  animation: gradient 9s linear infinite;
+}
+
+@keyframes gradient {
+  50% {background-position: 110% 0%;}
+}
+
+#finishBlock h2, #finishBlock button {
+  position: relative;
+  z-index: 1;
+}
+
+#confettiContainer {
+  width: inherit; height: inherit;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.confetti {
+  width: 3rem; height: 3rem;
+  position: absolute;
+  opacity: 0;
+  animation: 4s confettiFlight linear forwards;
+}
+
+@keyframes confettiFlight {
+  from {top: 0;}
+  10% {opacity: 1;}
+  85% {opacity: 1;}
+  to {top: 45rem; opacity: 0;}
 }
 
 #description {
@@ -328,11 +367,11 @@ span.this {
   #updateBlock {
     width: 100vw; height: 100vh;
   }
-  .coverBox, #cover {
+  .coverBox, .cover {
     width: 100vw; height: 45vw;
     max-width: 60rem; max-height: 27rem;
   }
-  #light {
+  .light {
     width: 85vw; height: 40vw;
     max-width: 50rem; max-height: 23rem;
   }

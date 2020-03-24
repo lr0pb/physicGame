@@ -264,13 +264,11 @@ canvas, #field, #electro, #magnetic {
 #finishBlock .coverBox {
   margin-bottom: 4rem;
 }
-
 #finishBlock .coverBox .light {
   background-size: 150%;
   background-position: 0% 0%;
   animation: gradient 9s linear infinite;
 }
-
 @keyframes gradient {
   50% {background-position: 110% 0%;}
 }
@@ -280,19 +278,22 @@ canvas, #field, #electro, #magnetic {
   position: absolute;
   top: 0; left: 0;
 }
-
 .confetti {
   width: 4rem; height: 4rem;
   position: absolute;
   opacity: 0;
   animation: 5s confettiFlight linear forwards;
 }
-
 @keyframes confettiFlight {
   from {top: 0;}
   10% {opacity: 1;}
   85% {opacity: 1;}
   to {top: calc(100vh - 5rem); opacity: 0;}
+}
+
+#finishBlock, #updateBlock, footer {
+  position: relative;
+  z-index: 1;
 }
 
 #description {

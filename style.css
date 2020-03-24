@@ -123,7 +123,6 @@ canvas, #field, #electro, #magnetic {
   top: 0; left: 50%;
   transform: translateX(-50%);
   position: absolute;
-  z-index: 8;
   background-color: transparent;
   border: 0.5rem solid transparent;
 }
@@ -152,7 +151,6 @@ canvas, #field, #electro, #magnetic {
   width: 1rem; height: 1rem;
   top: 80rem; left: 0rem;
   position: relative;
-  z-index: 10;
   background-color: var(--color);
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -163,7 +161,6 @@ canvas, #field, #electro, #magnetic {
   width: 9rem; height: 7rem;
   top: 70rem; left: 135rem;
   position: relative;
-  z-index: 9;
   background-image: url(ufo.svg);
   background-size: 90%;
   background-position: center 60%;
@@ -176,7 +173,6 @@ canvas, #field, #electro, #magnetic {
   width: 3rem; height: 6rem;
   top: 73rem; left: 0;
   position: relative;
-  z-index: 8;
   background-image: url(launcher.svg);
   background-size: cover;
   background-position: center;
@@ -269,6 +265,11 @@ canvas, #field, #electro, #magnetic {
   margin-bottom: 4rem;
 }
 
+#finishBlock {
+  opacity: 1;
+  display: flex;
+}
+
 #finishBlock .coverBox .light {
   background-size: 150%;
   background-position: 0% 0%;
@@ -279,29 +280,24 @@ canvas, #field, #electro, #magnetic {
   50% {background-position: 110% 0%;}
 }
 
-#finishBlock h2, #finishBlock button {
-  position: relative;
-  z-index: 1;
-}
-
 #confettiContainer {
-  width: inherit; height: inherit;
+  width: 100vw; height: 100vh;
   position: absolute;
   top: 0; left: 0;
 }
 
 .confetti {
-  width: 3rem; height: 3rem;
+  width: 4rem; height: 4rem;
   position: absolute;
   opacity: 0;
-  animation: 4s confettiFlight linear forwards;
+  animation: 5s confettiFlight linear forwards;
 }
 
 @keyframes confettiFlight {
   from {top: 0;}
   10% {opacity: 1;}
   85% {opacity: 1;}
-  to {top: 45rem; opacity: 0;}
+  to {top: calc(100vh - 5rem); opacity: 0;}
 }
 
 #description {

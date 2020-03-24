@@ -74,6 +74,15 @@ let iteration;
 window.addEventListener('load', normalize);
 window.addEventListener('resize', normalize);
 
+const confettiRawCode = '<?xml version="1.0"?>' +
+      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 388 388;" xml:space="preserve" width="${size}" height="${size}">' +
+	      '<g>' +
+		      '<path d="M133.48 247.04C153.64 280.52 166.24 301.45 171.28 309.82C221.82 393.72 304.63 453.17 400.29 474.21C409.09 476.14 431.08 480.98 466.27 488.72L513.62 312.57C486.69 308.74 469.86 306.34 463.13 305.38C395.54 295.75 334.59 259.54 293.81 204.78C285.24 193.28 263.82 164.52 229.55 118.51L133.48 247.04Z"' +
+		       'style="transform: translate(-70px, -50px);" fill="${color}"/>' +
+	       '</g>' +
+        '</svg>';
+let confettiCode;
+
 function normalize() {
   console.log('normalize');
   previousFontSize = fontSize;
@@ -82,6 +91,8 @@ function normalize() {
     console.log('new canvas size');
     canvasElement.width = 140 * fontSize;
     canvasElement.height = 80 * fontSize;
+    confettiCode = confettiRawCode.replace('${size}', 4 * fontSize);
+    confettiCode = confettiCode.replace('${size}', 4 * fontSize);
   };
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
@@ -90,6 +101,9 @@ function normalize() {
     document.querySelector('#controlsBlock').style.top = canvasElement.height / fontSize - 20 + 'rem';
   } else {
     document.querySelector('#controlsBlock').style.top = 'auto';
+  };
+  if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').style.display == 'none') {
+    show(document.querySelector('#startBlock'));
   };
 };
 
@@ -481,8 +495,9 @@ function confettiFactory() {
   let colors = ['#ff2e12','#ff5512','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
       step = 5;
       previousX = -10;
-  for (let i = 0; i < 150; i++) {
-    let x = Math.round(Math.random() * 72);
+      windowWidth = (window.innerWidth / fontSize) - 10;
+  for (let i = 0; i < 120; i++) {
+    let x = Math.round(Math.random() * windowWidth);
         previousX = x;
         if (-step < (previousX - x) < step) x = previousX + step;
     let rotation = Math.round(Math.random() * 360);
@@ -492,14 +507,7 @@ function confettiFactory() {
   };
 };
 
-const confettiCode = '<?xml version="1.0"?>' +
-      '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 388 388;" xml:space="preserve" width="30" height="30">' +
-	      '<g>' +
-		      '<path d="M133.48 247.04C153.64 280.52 166.24 301.45 171.28 309.82C221.82 393.72 304.63 453.17 400.29 474.21C409.09 476.14 431.08 480.98 466.27 488.72L513.62 312.57C486.69 308.74 469.86 306.34 463.13 305.38C395.54 295.75 334.59 259.54 293.81 204.78C285.24 193.28 263.82 164.52 229.55 118.51L133.48 247.04Z"' +
-		       'style="transform: translate(-70px, -50px);" fill="${color}"/>' +
-	       '</g>' +
-        '</svg>';
-      confettiContainer = document.querySelector('#confettiContainer');
+const confettiContainer = document.querySelector('#confettiContainer');
 
 class Confetti {
   constructor(x, rotation, color, delay) {

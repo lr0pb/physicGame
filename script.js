@@ -82,6 +82,7 @@ const confettiRawCode = '<?xml version="1.0"?>' +
 	       '</g>' +
         '</svg>';
 let confettiCode;
+let mobile = false;
 
 function normalize() {
   console.log('normalize');
@@ -91,8 +92,8 @@ function normalize() {
     console.log('new canvas size');
     canvasElement.width = 140 * fontSize;
     canvasElement.height = 80 * fontSize;
-    confettiCode = confettiRawCode.replace('${size}', 3 * fontSize);
-    confettiCode = confettiCode.replace('${size}', 3 * fontSize);
+    confettiCode = confettiRawCode.replace('${size}', 3.2 * fontSize);
+    confettiCode = confettiCode.replace('${size}', 3.2 * fontSize);
   };
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
@@ -105,6 +106,8 @@ function normalize() {
   if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').classList.contains('skip')) {
     show(document.querySelector('#startBlock'));
   };
+  if (fontSize < 7) return mobile = true;
+  mobile = false;
 };
 
 document.addEventListener('DOMContentLoaded', loadData);
@@ -496,7 +499,7 @@ function confettiFactory() {
       step = 5;
       previousX = -10;
       windowWidth = (window.innerWidth / fontSize) - 10;
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 150; i++) {
     let x = Math.round(Math.random() * windowWidth);
         previousX = x;
         if (-step < (previousX - x) < step) x = previousX + step;
@@ -521,9 +524,9 @@ class Confetti {
     let confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = this.x + 'rem';
-        confetti.style.transform = 'rotateZ(' + this.rotation + 'deg)';
+        confetti.style.setProperty('--rotation', this.rotation + 'deg');
         confetti.style.opacity = this.depth;
-        if (this.depth < 0.3) confetti.style.filter = 'blur(3px)';
+        if (this.depth < 0.3 && !mobile) confetti.style.filter = 'blur(3px)';
         confetti.style.animationDelay = this.delay + 's';
     let thisConfetti = confettiCode.replace('${color}', this.color);
     confetti.innerHTML = thisConfetti;

@@ -285,8 +285,12 @@ canvas, #field, #electro, #magnetic {
   animation: 5s confettiFlight linear forwards;
 }
 @keyframes confettiFlight {
-  90% {opacity: 1;}
-  to {top: calc(100vh - 5rem); opacity: 0;}
+  from {transform: rotateZ(var(--rotation));}
+  15% {transform: translateX(-3rem) rotateZ(var(--rotation));}
+  30% {transform: translateX(2rem) rotateZ(var(--rotation));}
+  70% {transform: translateX(-3rem) rotateZ(var(--rotation));}
+  90% {opacity: 1; transform: translateX(2rem) rotateZ(var(--rotation));}
+  to {top: calc(100vh - 5rem); opacity: 0; transform: rotateZ(var(--rotation));}
 }
 
 #description {

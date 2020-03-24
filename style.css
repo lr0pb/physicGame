@@ -265,11 +265,6 @@ canvas, #field, #electro, #magnetic {
   margin-bottom: 4rem;
 }
 
-#finishBlock {
-  opacity: 1;
-  display: flex;
-}
-
 #finishBlock .coverBox .light {
   background-size: 150%;
   background-position: 0% 0%;

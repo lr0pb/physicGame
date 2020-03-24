@@ -140,7 +140,7 @@ function focus() {
   this.placeholder = '';
 };
 function change() {
-  this.value = this.value.replace(this.value.match(/[\D]/g), '');
+  this.value = this.value.replace(/\D/g, '');
   switch (this.name) {
     case 'velocity':
       if (this.value >= 60) this.value = 60;
@@ -157,7 +157,7 @@ function change() {
   };
 };
 function blur() {
-  this.value = this.value.replace(this.value.match(/[\D]/g), '');
+  this.value = this.value.replace(/\D/g, '');
   switch (this.name) {
     case 'velocity':
       if (!this.value) {this.placeholder = phiz.V0;}

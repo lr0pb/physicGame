@@ -509,7 +509,6 @@ function backToStart() {
 
 function confettiFactory() {
   document.querySelector('main').style.filter = 'blur(4px)';
-  document.querySelector('footer').style.filter = 'blur(4px)';
   let colors = ['#ff2e12','#ff5512','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
       step = 5;
       previousX = -10;

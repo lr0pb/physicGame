@@ -2,9 +2,13 @@ if ('serviceWorker' in navigator && 'caches' in window) {
   navigator.serviceWorker.register('./sw.js').then(function () {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {
-        document.querySelector('main').style.filter = 'blur(4px)';
-        document.querySelector('#startBlock').style.filter = 'blur(4px)';
-        document.querySelector('#controlsBlock').style.filter = 'blur(4px)';
+        for (let element of document.querySelectorAll('[data-blur]')) {
+          element.style.filter = 'blur(4px)';
+        };
+        for (let element of document.querySelectorAll('[data-interactive]')) {
+          element.setAttribute('tabindex','-1');
+        };
+        document.querySelector('#ghostBackground').style.display = 'block';
         show(document.querySelector('#updateBlock'));
       };
     });
@@ -505,6 +509,7 @@ function backToStart() {
 
 function confettiFactory() {
   document.querySelector('main').style.filter = 'blur(4px)';
+  document.querySelector('footer').style.filter = 'blur(4px)';
   let colors = ['#ff2e12','#ff5512','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
       step = 5;
       previousX = -10;

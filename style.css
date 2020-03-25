@@ -272,6 +272,13 @@ canvas, #field, #electro, #magnetic {
 @keyframes gradient {
   50% {background-position: 110% 0%;}
 }
+#ghostBackground {
+  width: 100vw; height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  display: none;
+  z-index: 15;
+}
 
 #confettiContainer {
   width: 100vw; height: 100vh;

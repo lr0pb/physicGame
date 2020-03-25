@@ -282,15 +282,17 @@ canvas, #field, #electro, #magnetic {
   width: 4rem; height: 4rem;
   position: absolute;
   top: -5rem; opacity: 0;
-  animation: 5s confettiFlight linear forwards;
+  animation: 5.5s confettiFlight linear forwards;
 }
 @keyframes confettiFlight {
   from {transform: rotateZ(var(--rotation));}
-  15% {transform: translateX(-3rem) rotateZ(var(--rotation));}
-  30% {transform: translateX(2rem) rotateZ(var(--rotation));}
-  70% {transform: translateX(-3rem) rotateZ(var(--rotation));}
-  90% {opacity: 1; transform: translateX(2rem) rotateZ(var(--rotation));}
-  to {top: calc(100vh - 5rem); opacity: 0; transform: rotateZ(var(--rotation));}
+  15% {transform: rotateZ(calc(var(--rotation) + 35deg));}
+  30% {transform: rotateZ(calc(var(--rotation) + 70deg));}
+  45% {transform: rotateZ(calc(var(--rotation) + 105deg));}
+  60% {transform: rotateZ(calc(var(--rotation) + 140deg));}
+  75% {transform: rotateZ(calc(var(--rotation) + 175deg));}
+  90% {opacity: 1; transform: rotateZ(calc(var(--rotation) + 210deg));}
+  to {top: calc(100vh - 5rem); opacity: 0; transform: rotateZ(calc(var(--rotation) + 235deg));}
 }
 
 #description {
@@ -345,6 +347,10 @@ span.this {
 @media screen and (orientation: portrait) {
   html {
     font-size: 10px;
+  }
+  body {
+    max-width: 100vw; max-height: 100vh;
+    overflow: hidden;
   }
   main, footer, #start, #description, .popup:not(#startBlock):not(#updateBlock) {
     display: none !important;

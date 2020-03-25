@@ -2,8 +2,9 @@ if ('serviceWorker' in navigator && 'caches' in window) {
   navigator.serviceWorker.register('./sw.js').then(function () {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {
-        document.querySelector('#startBlock').style.display = 'none';
-        document.querySelector('#controlsBlock').style.display = 'none';
+        document.querySelector('main').style.filter = 'blur(4px)';
+        document.querySelector('#startBlock').style.filter = 'blur(4px)';
+        document.querySelector('#controlsBlock').style.filter = 'blur(4px)';
         show(document.querySelector('#updateBlock'));
       };
     });
@@ -83,17 +84,25 @@ const confettiRawCode = '<?xml version="1.0"?>' +
         '</svg>';
 let confettiCode;
 let mobile = false;
+    confettiSize = 3.2;
 
 function normalize() {
   console.log('normalize');
   previousFontSize = fontSize;
   fontSize = parseInt(getComputedStyle(document.documentElement).fontSize.match(/\d/g).join(''));
+  if (fontSize < 7) {
+    mobile = true;
+    confettiSize = 3;
+  } else {
+    mobile = false;
+    confettiSize = 3.2;
+  };
   if (previousFontSize != fontSize) {
     console.log('new canvas size');
     canvasElement.width = 140 * fontSize;
     canvasElement.height = 80 * fontSize;
-    confettiCode = confettiRawCode.replace('${size}', 3.2 * fontSize);
-    confettiCode = confettiCode.replace('${size}', 3.2 * fontSize);
+    confettiCode = confettiRawCode.replace('${size}', confettiSize * fontSize);
+    confettiCode = confettiCode.replace('${size}', confettiSize * fontSize);
   };
   canvas.lineWidth = 0.4 * fontSize;
   canvas.lineCap = 'square';
@@ -106,8 +115,6 @@ function normalize() {
   if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').classList.contains('skip')) {
     show(document.querySelector('#startBlock'));
   };
-  if (fontSize < 7) return mobile = true;
-  mobile = false;
 };
 
 document.addEventListener('DOMContentLoaded', loadData);
@@ -447,6 +454,8 @@ function next() {
 
   if (phiz.EField && phiz.MField) {
     show(document.querySelector('#finishBlock'));
+    document.querySelector('#electro').style.opacity = '0';
+    document.querySelector('#magnetic').style.opacity = '0';
     setTimeout( () => {confettiFactory()}, 600 );
     return;
   };
@@ -495,6 +504,7 @@ function backToStart() {
 };
 
 function confettiFactory() {
+  document.querySelector('main').style.filter = 'blur(4px)';
   let colors = ['#ff2e12','#ff5512','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
       step = 5;
       previousX = -10;
@@ -506,7 +516,7 @@ function confettiFactory() {
     let rotation = Math.round(Math.random() * 360);
         color = colors[Math.round(Math.random() * (colors.length - 1))];
         depth = Math.round(Math.random() * 10) / 10;
-        delay = 0.1 * i;
+        delay = 0.12 * i;
     new Confetti(x, rotation, color, depth, delay);
   };
 };

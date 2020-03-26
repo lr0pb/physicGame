@@ -359,7 +359,7 @@ span.this {
     max-width: 100vw; max-height: 100vh;
     overflow: hidden;
   }
-  main, footer, #start, #description, .popup:not(#startBlock):not(#updateBlock) {
+  main, footer, #start, #description, .popup:not(#startBlock):not(#updateBlock), #confettiContainer {
     display: none !important;
   }
   #startBlock {

@@ -96,7 +96,7 @@ function normalize() {
   fontSize = parseInt(getComputedStyle(document.documentElement).fontSize.match(/\d/g).join(''));
   if (fontSize < 7) {
     mobile = true;
-    confettiSize = 3;
+    confettiSize = 3.8;
   } else {
     mobile = false;
     confettiSize = 3.2;
@@ -112,8 +112,10 @@ function normalize() {
   canvas.lineCap = 'square';
   canvas.strokeStyle = 'hsl(225, 50%, 85%)';
   if (window.innerHeight < canvasElement.height * 1.15) {
-    document.querySelector('#controlsBlock').style.top = canvasElement.height / fontSize - 20 + 'rem';
+    document.body.style.height = canvasElement.height / fontSize + 20 + 'rem';
+    document.querySelector('#controlsBlock').style.top = canvasElement.height / fontSize - 17 + 'rem';
   } else {
+    document.body.style.height = 'auto';
     document.querySelector('#controlsBlock').style.top = 'auto';
   };
   if (window.matchMedia('(orientation: landscape)').matches && !document.querySelector('#startBlock').classList.contains('skip')) {
@@ -237,11 +239,11 @@ function setUfo() {
   };
   if (!phiz.EField && phiz.MField) {
     ufo.left = 40 + Math.round(Math.random() * 60);
-    ufo.top = 10 + Math.round(Math.random() * 40);
+    ufo.top = 15 + Math.round(Math.random() * 40);
   };
   if (phiz.EField && phiz.MField) {
     ufo.left = 80 + Math.round(Math.random() * 45);
-    ufo.top = 10 + Math.round(Math.random() * 40);
+    ufo.top = 15 + Math.round(Math.random() * 40);
   };
   ufoPlacement();
 };
@@ -509,15 +511,11 @@ function backToStart() {
 
 function confettiFactory() {
   document.querySelector('main').style.filter = 'blur(4px)';
-  let colors = ['#ff2e12','#ff5512','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
-      step = 5;
-      previousX = -10;
-      windowWidth = (window.innerWidth / fontSize) - 10;
+  let colors = ['#ff2e12','#ff5512','#db382a','#ff7512','#ff8000','#ff8c12','#ffbb00','#f2cc0f'];
+      windowWidth = (window.innerWidth / fontSize) - 5;
   for (let i = 0; i < 150; i++) {
     let x = Math.round(Math.random() * windowWidth);
-        previousX = x;
-        if (-step < (previousX - x) < step) x = previousX + step;
-    let rotation = Math.round(Math.random() * 360);
+        rotation = Math.round(Math.random() * 360);
         color = colors[Math.round(Math.random() * (colors.length - 1))];
         depth = Math.round(Math.random() * 10) / 10;
         delay = 0.12 * i;

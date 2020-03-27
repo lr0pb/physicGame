@@ -35,96 +35,107 @@
         <div class="light"></div>
         <div class="cover"></div>
       </div>
-      <h1 data-text data-ru="Попади в тарелку!" data-ua="Влуч у тарілку!">Попади в тарелку!</h1>
+      <h1 data-text data-ru="Попади в тарелку!" data-uk="Влуч у тарілку!" data-en="Hit the UFO!">Попади в тарелку!</h1>
       <p class="startText" data-text
          data-ru="Расчитай начальные условия H, V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох для запуска электрического заряда,
                   чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты."
-         data-ua="Розрахуй початкові умови H, V<sub>0</sub> та кут α між напрямком V<sub>0</sub> та віссю Ох для запуска електричного заряду,
-                  щоб він влучив у тарілку, при впливі на нього різноманітних полів. Запусти снаряд та перевір свої розрахунки.">
+         data-uk="Розрахуй початкові умови H, V<sub>0</sub> та кут α між напрямком V<sub>0</sub> та віссю Ох для запуска електричного заряду,
+                  щоб він влучив у тарілку, при впливі на нього різноманітних полів. Запусти снаряд та перевір свої розрахунки."
+         data-en="Calculate the initial conditions H, V<sub>0</sub> and angle α between the direction V<sub>0</sub> and the axis Ox to launch the
+                  electric charge so that it hits the UFO with the affect of various fields on it. Launch the projectile and check your calculations.">
+        <!--Найди уравнения зависимости координат снаряда от времени и определи из них начальные условия запуска снаряда Н,
+        V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох. Запусти снаряд и проверь свои расчеты.-->
         Расчитай начальные условия H, V<sub>0</sub> и угол α между направлением V<sub>0</sub> и осью Ох для запуска электрического заряда,
         чтобы он попал в тарелку, при воздействии на него различных полей. Запусти снаряд и проверь свои расчеты.
       </p>
-      <button id="start" data-text data-ru="Начать" data-ua="Почати" data-interactive>Начать</button>
-      <h3 id="rotate" class="warning" data-text data-ru="Поверни устройство горизонтально!" data-ua="Поверни пристрій горизонтально!">Поверни устройство горизонтально!</h3>
+      <button id="start" data-text data-ru="Начать" data-uk="Почати" data-en="Start" data-interactive>Начать</button>
+      <h3 id="rotate" class="warning" data-text data-ru="Поверни устройство горизонтально!" data-uk="Поверни пристрій горизонтально!" data-en="Rotate your device horizontally!">
+        Поверни устройство горизонтально!
+      </h3>
     </div>
     <h3 id="smallDevice" class="warning" data-text
       data-ru="Воспользуйтесь устройством с экраном большего размера!"
-      data-ua="Скористуйтеся пристроєм із єкраном більшого розміру!">
+      data-uk="Скористуйтеся пристроєм із єкраном більшого розміру!"
+      data-en="Use device with bigger screen!">
       Воспользуйтесь устройством с экраном большего размера!
     </h3>
     <div id="controlsBlock" class="popup" data-blur>
       <div class="columnContent projectileConditions">
-        <h2>Снаряд:</h2>
-        <label>q = <span class="digit" id="q"></span> Кл</label>
+        <h2 data-text data-ru="Снаряд:" data-uk="Снаряд:" data-en="Projectile:">Снаряд:</h2>
+        <label>q = <span class="digit" id="q"></span> <span data-text data-ru="Кл" data-uk="Кл" data-en="C">Кл</span></label>
         <br>
-        <label>m = <span class="digit" id="m"></span> кг</label>
+        <label>m = <span class="digit" id="m"></span> <span data-text data-ru="кг" data-uk="кг" data-en="kg">кг</span></label>
       </div>
       <div class="columnContent maxValues">
-        <h2 data-text data-ru="Ограничения:" data-ua="Обмеження:">Ограничения:</h2>
-        <label>V<sub>0</sub> = <span class="digit">60</span> м/с</label>
+        <h2 data-text data-ru="Ограничения:" data-uk="Обмеження:" data-en="Limits:">Ограничения:</h2>
+        <label>V<sub>0</sub> = <span class="digit">60</span> <span data-text data-ru="м/С" data-uk="м/с" data-en="m/s">м/с</span></label>
         <br>
-        <label>H = <span class="digit">60</span> м</label>
+        <label>H = <span class="digit">60</span> <span data-text data-ru="м" data-uk="м" data-en="m">м</span></label>
         <br>
         <label>α = <span class="digit">90</span> °</label>
       </div>
       <div class="columnContent fieldConditions">
-        <h2>Поля:</h2>
-        <label>E = <span class="digit" id="E"></span> В/м</label>
+        <h2 data-text data-ru="Поля:" data-uk="Поля:" data-en="Fields:">Поля:</h2>
+        <label>E = <span class="digit" id="E"></span> <span data-text data-ru="В/м" data-uk="В/м" data-en="V/m">В/м</span></label>
         <br>
-        <label>B = <span class="digit" id="B"></span> Тесла</label>
+        <label>B = <span class="digit" id="B"></span> <span data-text data-ru="Тесла" data-uk="Тесла" data-en="Tesla">Тесла</span></label>
       </div>
       <div class="columnContent ufoConditions">
-        <h2 data-text data-ru="Тарелка:" data-ua="Тарілка:">Тарелка:</h2>
-        <label>x = <span class="digit" id="ufoX"></span> м</label>
+        <h2 data-text data-ru="Тарелка:" data-uk="Тарілка:" data-en="UFO:">Тарелка:</h2>
+        <label>x = <span class="digit" id="ufoX"></span> <span data-text data-ru="м" data-uk="м" data-en="m">м</span></label>
         <br>
-        <label>y = <span class="digit" id="ufoY"></span> м</label>
+        <label>y = <span class="digit" id="ufoY"></span> <span data-text data-ru="м" data-uk="м" data-en="m">м</span></label>
         <br>
-        <label>R = <span class="digit">3.5</span> - <span class="digit">4.5</span> м</label>
+        <label>R = <span class="digit">3.5</span> - <span class="digit">4.5</span> <span data-text data-ru="м" data-uk="м" data-en="m">м</span></label>
       </div>
       <div class="columnContent controls">
         <label for="velocity">V<sub>0</sub> =</label>
         <input type="text" name="velocity" placeholder="55" pattern="\d*" data-interactive>
-        <label>м/с</label>
+        <label><span data-text data-ru="м/С" data-uk="м/с" data-en="m/s">м/с</span></label>
         <br>
         <label for="height">H =</label>
         <input type="text" name="height" placeholder="15" pattern="\d*" data-interactive>
-        <label>м</label>
+        <label><span data-text data-ru="м" data-uk="м" data-en="m">м</span></label>
         <br>
         <label for="angle">α =</label>
         <input type="text" name="angle" placeholder="45" pattern="\d*" data-interactive>
         <label>°</label>
       </div>
-      <button id="fire" data-text data-ru="Запустить снаряд" data-ua="Запустити снаряд" data-interactive>Запустить снаряд</button>
+      <button id="fire" data-text data-ru="Запустить снаряд" data-uk="Запустити снаряд" data-en="Launch projectile" data-interactive>Запустить снаряд</button>
     </div>
     <div id="description" class="popup" data-blur>
       <p id="NField" class="descriptionText" data-text
         data-ru="Никакие поля не оказывают воздействие на снаряд"
-        data-ua="Жодне з полів не впливає на снаряд">
+        data-uk="Жодне з полів не впливає на снаряд"
+        data-en="No fields affect the projectile">
         Никакие поля не оказывают воздействие на снаряд
       </p>
       <p id="EField" class="descriptionText" data-text
         data-ru="Однородное электростатическое поле, силовые линии которого направлены вниз"
-        data-ua="Однорідне електростатичне поле, силові лінії якого напрямлені вниз">
+        data-uk="Однорідне електростатичне поле, силові лінії якого напрямлені вниз"
+        data-en="Homogeneous electrostatic field, the lines of force of which are directed down">
         Однородное электростатическое поле, силовые линии которого направлены вниз
       </p>
       <p id="MField" class="descriptionText" data-text
         data-ru="Однородное магнитостатическое поле, линии индукции которого направлены от наблюдателя"
-        data-ua="Однорідне магнітостатичне поле, лінії індукції якого напрямлені від спостерігача">
+        data-uk="Однорідне магнітостатичне поле, лінії індукції якого напрямлені від спостерігача"
+        data-en="Homogeneous magnetostatic field whose induction lines are directed from the observer">
         Однородное магнитостатическое поле, линии индукции которого направлены от наблюдателя
       </p>
       <p id="EMField" class="descriptionText" data-text
         data-ru="Взаимноперпендикулярные электростатическое и магнитостатическое поля"
-        data-ua="Взаємноперпендикулярні електростатичне та магнітостатичне поля">
+        data-uk="Взаємноперпендикулярні електростатичне та магнітостатичне поля"
+        data-en="Mutually perpendicular electrostatic and magnetostatic fields">
         Взаимноперпендикулярные электростатическое и магнитостатическое поля
       </p>
     </div>
     <div id="winBlock" class="popup">
-      <h2 data-text data-ru="Задача решена!" data-ua="Задача вирішена!">Задача решена!</h2>
-      <button id="win" data-text data-ru="Дальше" data-ua="Далі">Дальше</button>
+      <h2 data-text data-ru="Задача решена!" data-uk="Задача вирішена!" data-en="Solved correctly!">Задача решена!</h2>
+      <button id="win" data-text data-ru="Продолжить" data-uk="Продовжити" data-en="Continue">Продолжить</button>
     </div>
     <div id="failBlock" class="popup">
-      <h2 data-text data-ru="Решено не верно!" data-ua="Розв'язано не вірно!">Решено не верно!</h2>
-      <button id="fail" data-text data-ru="Заново" data-ua="Заново">Заново</button>
+      <h2 data-text data-ru="Решено не верно!" data-uk="Розв'язано не вірно!" data-en="Solved wrong!">Решено не верно!</h2>
+      <button id="fail" data-text data-ru="Заново" data-uk="Заново" data-en="Repeat">Заново</button>
     </div>
     <footer data-blur>
       Icons made by <a href="https://www.flaticon.com/authors/good-ware" title="Good Ware" target="_blank" rel="noreferrer" data-interactive>Good Ware</a>,
@@ -132,7 +143,9 @@
       <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons" target="_blank" rel="noreferrer" data-interactive>Smashicons</a> and
       <a href="https://www.flaticon.com/authors/freepik" title="Freepik" target="_blank" rel="noreferrer" data-interactive>Freepik</a>
       from <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noreferrer" data-interactive> www.flaticon.com</a> <span class="space">—</span>
-      Choose language: <span class="space lang ru" tabindex="0" role="button" data-interactive>RU</span><span class="space lang ua" tabindex="0" role="button" data-interactive>UA</span>
+      Choose language: <span class="space lang ru" tabindex="0" role="button" data-interactive>RU</span>
+                       <span class="space lang uk" tabindex="0" role="button" data-interactive>UA</span>
+                       <span class="space lang en" tabindex="0" role="button" data-interactive>EN</span>
     </footer>
     <div id="ghostBackground"></div>
     <div id="confettiContainer"></div>
@@ -141,12 +154,12 @@
         <div class="light"></div>
         <div class="cover"></div>
       </div>
-      <h2 data-text data-ru="Всё решено правильно!" data-ua="Все розв'язано правильно!">Всё решено правильно!</h2>
-      <button class="reload" data-text data-ru="Ещё раз?" data-ua="Ще раз?">Ещё раз?</button>
+      <h2 data-text data-ru="Всё решено правильно!" data-uk="Все розв'язано правильно!" data-en="Everything is solved correctly!">Всё решено правильно!</h2>
+      <button class="reload" data-text data-ru="Ещё раз?" data-uk="Ще раз?" data-en="Again?">Ещё раз?</button>
     </div>
     <div id="updateBlock" class="popup">
-      <h2 data-text data-ru="Появилась новая версия!" data-ua="З'явилася нова версія!">Появилась новая версия!</h2>
-      <button class="reload" data-text data-ru="Обновить" data-ua="Оновити">Обновить</button>
+      <h2 data-text data-ru="Появилась новая версия!" data-uk="З'явилася нова версія!" data-en="We found a new version!">Появилась новая версия!</h2>
+      <button class="reload" data-text data-ru="Обновить" data-uk="Оновити" data-en="Update">Обновить</button>
     </div>
   </body>
 </html>

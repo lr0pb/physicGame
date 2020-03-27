@@ -27,37 +27,40 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   } else {
     lang = navigator.language.match(/\w\w/).join('');
-    if (lang == 'ua') {
-      document.querySelector('.ua').classList.add('this');
+    if (lang == 'uk') {
+      document.querySelector('.uk').classList.add('this');
       for (let text of document.querySelectorAll('[data-text]')) {
-        text.innerHTML = text.dataset.ua;
+        text.innerHTML = text.dataset.uk;
       };
-    } else {
+    } else if (lang == 'ru' || 'bl' || 'kz') {
       lang = 'ru';
       document.querySelector('.ru').classList.add('this');
-    };
+    } else {
+      lang = 'en';
+      document.querySelector('.en').classList.add('this');
+      for (let text of document.querySelectorAll('[data-text]')) {
+        text.innerHTML = text.dataset.en;
+      };
+    }
     localStorage.setItem('lang', lang);
   };
 });
 
-document.querySelector('.ru').addEventListener('click', function () {
-  lang = 'ru';
+document.querySelector('.ru').addEventListener('click', () => {switchLanguage('ru')});
+document.querySelector('.uk').addEventListener('click', () => {switchLanguage('uk')});
+document.querySelector('.en').addEventListener('click', () => {switchLanguage('en')});
+
+function switchLanguage(language) {
+  lang = language;
   localStorage.setItem('lang', lang);
-  document.querySelector('.ua').classList.remove('this');
-  document.querySelector('.ru').classList.add('this');
-  for (let text of document.querySelectorAll('[data-text]')) {
-    text.innerHTML = text.dataset.ru;
+  for (let button of document.querySelectorAll('.lang')) {
+    button.classList.contains('this') ? button.classList.remove('this') : button;
   };
-});
-document.querySelector('.ua').addEventListener('click', function () {
-  lang = 'ua';
-  localStorage.setItem('lang', lang);
-  document.querySelector('.ru').classList.remove('this');
-  document.querySelector('.ua').classList.add('this');
+  document.querySelector('.' + lang).classList.add('this');
   for (let text of document.querySelectorAll('[data-text]')) {
-    text.innerHTML = text.dataset.ua;
+    text.innerHTML = text.getAttribute('data-' + lang);
   };
-});
+};
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

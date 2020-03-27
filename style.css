@@ -101,10 +101,11 @@ label {
 }
 input {
   font-weight: 600;
-  width: 2.2rem;
+  width: 2.3rem;
   border-radius: 1rem;
   border: 0.4rem solid var(--shadow);
   margin: 1rem 0;
+  cursor: text;
 }
 button:hover, button:focus, input:hover, input:focus {
   border: 0.4rem solid var(--shadow);

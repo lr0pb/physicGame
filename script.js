@@ -352,8 +352,8 @@ function EMStart() {
 };
 function EMPositionCalculator() {
   beforePositionCalculator();
-  phiz.currentH = phiz.H + ( phiz.Cy + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) );
-  phiz.currentS = phiz.Cx - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + ( (phiz.alpha) * Math.PI / 180) ) + ( phiz.E * (phiz.currentT / 1000) ) / phiz.B;
+  phiz.currentH = phiz.H + phiz.Cy + phiz.R * Math.sin( phiz.omega * (phiz.currentT / 1000) + (phiz.alpha * Math.PI / 180) );
+  phiz.currentS = phiz.Cx - phiz.R * Math.cos( phiz.omega * (phiz.currentT / 1000) + (phiz.alpha * Math.PI / 180) ) + phiz.E * (phiz.currentT / 1000 ) / phiz.B;
 
   if (phiz.currentH <= 0) phiz.currentH = 0;
   afterPositionCalculator();

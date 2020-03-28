@@ -27,6 +27,9 @@ html {
   overflow: hidden auto;
   background-color: var(--dark-bg);
 }
+@media screen and (orientation: landscape) and (min-width: 560px) and (max-width: 699px) {
+  html {font-size: 4px;}
+}
 @media screen and (orientation: landscape) and (min-width: 700px) and (max-width: 839px) {
   html {font-size: 5px;}
 }
@@ -389,7 +392,7 @@ span.this {
   }
 }
 
-@media screen and (orientation: landscape) and (max-width: 699px) {
+@media screen and (orientation: landscape) and (max-width: 559px) {
   html {
     font-size: 10px;
   }

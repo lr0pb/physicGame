@@ -1,4 +1,4 @@
-if ('serviceWorker' in navigator && 'caches' in window) {
+if ('serviceWorker' in navigator && caches) {
   navigator.serviceWorker.register('./sw.js').then(function () {
     navigator.serviceWorker.addEventListener('message', function (e) {
       if (e.data == 'update') {

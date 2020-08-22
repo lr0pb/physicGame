@@ -1,4 +1,4 @@
-const appVersion = 4;
+const appVersion = 5;
       appName = 'physicGame';
       appCache = appName + appVersion;
       serverName = 'GitHub.com';
@@ -18,21 +18,20 @@ const appVersion = 4;
         'https://fonts.googleapis.com/css?family=Montserrat:600,700,800&display=swap&subset=cyrillic'
       ];
 
-self.addEventListener('install', function (e) {
+self.addEventListener('install', (e) => {
   console.log('[SW] install');
   skipWaiting();
   e.waitUntil(
-    caches.open(appCache).then(function (cache) {
-      cache.addAll(offlineFiles);
-    })
+    let cache = await caches.open(appCache);
+    cache.addAll(offlineFiles);
   );
 });
 
-self.addEventListener('activate', function (e) {
+self.addEventListener('activate', (e) => {
   console.log('[SW] activate');
   clients.claim();
   e.waitUntil(
-    caches.keys().then(function (keys) {
+    caches.keys().then( (keys) => {
       Promise.all(
         keys.map( (key) => key == appCache || caches.delete(key) )
       );
@@ -40,12 +39,12 @@ self.addEventListener('activate', function (e) {
   );
 });
 
-self.addEventListener('fetch', function (e) {
+self.addEventListener('fetch', (e) => {
   console.log('[SW] fetch ' + e.request.url);
   let cacheResponse = null;
       fetchResponse = null;
   e.respondWith(
-    (async function () {
+    (async () => {
       cacheResponse = await caches.match(e.request);
       if (cacheResponse) return cacheResponse;
       fetchResponse = await addCache(e.request);
@@ -53,7 +52,7 @@ self.addEventListener('fetch', function (e) {
     })()
   );
   e.waitUntil(
-    (async function () {
+    (async () => {
       if (!fetchResponse) fetchResponse = await fetch(e.request);
       console.log('[SW] Cache time ' + cacheResponse.headers.get('last-modified') + ' for ' + e.request.url);
       console.log('[SW] Fetch time ' + fetchResponse.headers.get('last-modified'));
@@ -67,22 +66,19 @@ self.addEventListener('fetch', function (e) {
 async function addCache(request) {
   console.log('[SW] add cache ' + request.url);
   let fetchResponse = new Response(new Blob, { 'status': 400, 'statusText': 'Bad request' });
-  fetch(request).then(function (response) {
-    if (response.ok) {
-      caches.open(appCache).then(function (cache) {
-        cache.put(request, response.clone());
-      })
-      fetchResponse = response;
-    };
-  })
+  let response = await fetch(request);
+  if (response.ok) {
+    let cache = await caches.open(appCache);
+    cache.put(request, response.clone());
+    fetchResponse = response;
+  }
   return fetchResponse;
 };
 
 async function updateCache(request, response) {
   console.log('[SW] update cache ' + request.url);
-  caches.open(appCache).then(function (cache) {
-    cache.put(request, response);
-  })
+  let cache = await caches.open(appCache);
+  cache.put(request, response);
   const allClients = await clients.matchAll();
   for (let client of allClients) {
     client.postMessage('update');

@@ -1,66 +1,56 @@
-if ('serviceWorker' in navigator && caches) {
-  navigator.serviceWorker.register('./sw.js').then(function () {
-    navigator.serviceWorker.addEventListener('message', function (e) {
-      if (e.data == 'update') {
-        for (let element of document.querySelectorAll('[data-blur]')) {
-          element.style.filter = 'blur(4px)';
-        };
-        for (let element of document.querySelectorAll('[data-interactive]')) {
-          element.setAttribute('tabindex','-1');
-        };
-        document.querySelector('#ghostBackground').style.display = 'block';
-        show(document.querySelector('#updateBlock'));
-      };
-    });
-    document.querySelector('#font').setAttribute('href','https://fonts.googleapis.com/css?family=Montserrat:600,700,800');
-  })
-};
-
 let lang;
+let theme;
 
 document.addEventListener('DOMContentLoaded', function () {
-  if (localStorage.getItem('lang')) {
-    lang = localStorage.getItem('lang');
-    document.querySelector('.' + lang).classList.add('this');
-    for (let text of document.querySelectorAll('[data-text]')) {
-      text.innerHTML = text.getAttribute('data-' + lang);
-    };
+  lang = localStorage.getItem('lang');
+  if (lang) {
+    switchLanguage(lang);
   } else {
     lang = navigator.language.match(/\w\w/).join('');
     if (lang == 'uk') {
-      document.querySelector('.uk').classList.add('this');
-      for (let text of document.querySelectorAll('[data-text]')) {
-        text.innerHTML = text.dataset.uk;
-      };
-    } else if (lang == 'ru' || 'bl' || 'kz') {
+      // Everything is fine, do nothing
+    } else if (['ru', 'bl', 'kz'].includes(lang)) {
       lang = 'ru';
-      document.querySelector('.ru').classList.add('this');
     } else {
       lang = 'en';
-      document.querySelector('.en').classList.add('this');
-      for (let text of document.querySelectorAll('[data-text]')) {
-        text.innerHTML = text.dataset.en;
-      };
     }
-    localStorage.setItem('lang', lang);
-  };
+    switchLanguage(lang);
+  }
+  theme = localStorage.getItem('theme');
+  if (!theme) {
+    theme = matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark' : 'light';
+  }
+  document.documentElement.dataset.theme = theme;
 });
 
-document.querySelector('.ru').addEventListener('click', () => {switchLanguage('ru')});
-document.querySelector('.uk').addEventListener('click', () => {switchLanguage('uk')});
-document.querySelector('.en').addEventListener('click', () => {switchLanguage('en')});
+document.querySelector('.ru').addEventListener('click', () => {switchLanguage('ru', true)});
+document.querySelector('.uk').addEventListener('click', () => {switchLanguage('uk', true)});
+document.querySelector('.en').addEventListener('click', () => {switchLanguage('en', true)});
 
-function switchLanguage(language) {
+function switchLanguage(language, writeInStorage) {
   lang = language;
-  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  if (writeInStorage) localStorage.setItem('lang', lang);
   for (let button of document.querySelectorAll('.lang')) {
-    button.classList.contains('this') ? button.classList.remove('this') : button;
+    button.classList.contains('selected') ? button.classList.remove('selected') : null;
   };
-  document.querySelector('.' + lang).classList.add('this');
+  document.querySelector('.' + lang).classList.add('selected');
   for (let text of document.querySelectorAll('[data-text]')) {
     text.innerHTML = text.getAttribute('data-' + lang);
   };
 };
+
+document.querySelector('.l').addEventListener('click', switchTheme);
+document.querySelector('.d').addEventListener('click', switchTheme);
+
+function switchTheme(e) {
+  theme = this.classList.contains('l') ? 'light' : 'dark';
+  localStorage.setItem('theme', theme);
+  document.querySelector('.theme.selected').classList.remove('selected');
+  this.classList.add('selected');
+  document.documentElement.dataset.theme = theme;
+}
 
 const fire = document.querySelector('#fire');
       projectile = document.querySelector('#projectile');

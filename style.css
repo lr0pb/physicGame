@@ -222,7 +222,7 @@ canvas, #field, #electro, #magnetic {
   font-weight: 800;
 }
 
-#startBlock, #winBlock, #failBlock, #finishBlock, #updateBlock {
+#startBlock, #winBlock, #failBlock, #finishBlock {
   width: 50rem; height: 20rem;
   top: 50%;
   flex-direction: column;
@@ -325,10 +325,11 @@ footer {
   position: relative;
   z-index: 1;
 }
+footer > * {
+  margin-bottom: 0.7rem;
+}
 span.space {
   margin: 0 0.3rem;
-}
-span.lang {
   font-size: 1.4em;
   font-weight: 600;
   cursor: pointer;
@@ -337,10 +338,10 @@ span.lang {
   border: 0.2rem solid var(--shadow);
   transition: 0.3s;
 }
-span.lang:hover, span.lang:focus {
+span.space:hover, span.space:focus {
   background-color: var(--light-bg);
 }
-span.this {
+span.space.selected {
   font-weight: 800;
   background-color: var(--shadow);
 }
@@ -363,7 +364,7 @@ span.this {
     max-width: 100vw; max-height: 100vh;
     overflow: hidden;
   }
-  main, footer, #start, #description, .popup:not(#startBlock):not(#updateBlock), #confettiContainer {
+  main, footer, #start, #description, .popup:not(#startBlock), #confettiContainer {
     display: none !important;
   }
   #startBlock {
@@ -371,9 +372,6 @@ span.this {
     display: flex !important;
     opacity: 1 !important;
     transform: scale(1) translate(-50%, -50%) !important;
-  }
-  #updateBlock {
-    width: 100vw; height: 100vh;
   }
   .coverBox, .cover {
     width: 100vw; height: 45vw;

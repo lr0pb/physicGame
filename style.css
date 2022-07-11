@@ -1,21 +1,19 @@
 :root {
-  --dark-bg: hsl(225, var(--s), var(--l) );
-  --light-bg: hsl(225, var(--s), var(--ll) );
-  --red: hsl(0, 50%, 50%);
-  --shadow: hsla(225, 35%, var(--l3), var(--a) );
-}
-:root {
   --s: 50%;
   --l: 90%;
-  --ll: 95%;
+  --l2: 95%;
   --l3: 60%;
   --a: 0.3;
+  --dark-bg: hsl(225, var(--s), var(--l) );
+  --light-bg: hsl(225, var(--s), var(--l2) );
+  --red: hsl(0, 50%, 50%);
+  --shadow: hsla(225, 35%, var(--l3), var(--a) );
   --color: black;
 }
 html[data-theme="dark"] {
   --s: 25%;
   --l: 10%;
-  --ll: 15%;
+  --l2: 15%;
   --l3: 35%;
   --a: 0.5;
   --color: white;
@@ -56,7 +54,7 @@ body {
 }
 body, button, input, a {
   color: var(--color);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 }
 body, h1, h2, h3, h4, h5, button, label, input, p, ul, li, a {margin: 0;}
 
